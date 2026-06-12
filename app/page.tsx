@@ -1,13 +1,17 @@
+import DashboardBellCurve from '@/components/dashboard/dashboard-bell-curve';
 import DashBoardHeader from '@/components/dashboard/dashboard-header';
 import DashboardKPIs from '@/components/dashboard/dashboard-kpis';
+import DashboardTrajectoryTable from '@/components/dashboard/dashboard-tragetory-table';
 
-const Home = () => {
+const Dashboard = () => {
   return (
-    <section className='flex flex-col w-full gap-5'>
+    <section className='w-full flex flex-col gap-4 p-1 overflow-auto'>
       <DashBoardHeader />
       <DashboardKPIs />
+      <DashboardBellCurve />
+      <DashboardTrajectoryTable />
     </section>
   );
 };
 
-export default Home;
+export default Dashboard;
