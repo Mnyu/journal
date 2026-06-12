@@ -1,8 +1,19 @@
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { TrendingUp } from 'lucide-react';
 
 const DashboardKPIs = () => {
   return (
     <section className='flex items-center gap-5'>
+      <Card className='w-full'>
+        <CardHeader>
+          <CardDescription>Momentum</CardDescription>
+          <CardTitle className='flex gap-5 items-center'>
+            <span className='text-3xl'>Upward Trend</span>
+            <TrendingUp size={36} />
+          </CardTitle>
+          <CardDescription>System operation is efficient</CardDescription>
+        </CardHeader>
+      </Card>
       <Card className='w-full'>
         <CardHeader>
           <CardDescription>Trades</CardDescription>
