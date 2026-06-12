@@ -13,9 +13,9 @@ import {
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { appSidebar } from './app-sidebar-items';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { appSidebar } from '@/config/app-sidebar';
 
 const AppSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) => {
   const pathname = usePathname();
