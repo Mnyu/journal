@@ -6,33 +6,37 @@ const AnalyticsKPIs = () => {
     <section className='flex items-center gap-4 p-1'>
       <Card className='w-full'>
         <CardHeader>
-          <CardDescription>Win Rate</CardDescription>
-          <CardTitle className='flex gap-5 items-center'>
-            <span className='text-3xl'>38%</span>
-            <TrendingUp size={32} />
-          </CardTitle>
-          <CardDescription>20.1% from last month</CardDescription>
+          <CardDescription>Current Edge</CardDescription>
+          <CardTitle className='text-2xl xl:text-3xl'>2.72</CardTitle>
+          <CardDescription>MTD</CardDescription>
         </CardHeader>
       </Card>
       <Card className='w-full'>
         <CardHeader>
-          <CardDescription>Average Gain %</CardDescription>
-          <CardTitle className='text-3xl'>7%</CardTitle>
-          <CardDescription>20.1% from last month</CardDescription>
+          <CardDescription>Avg Edge</CardDescription>
+          <CardTitle className='text-2xl xl:text-3xl'>2.72</CardTitle>
+          <CardDescription>Last 12 months</CardDescription>
         </CardHeader>
       </Card>
       <Card className='w-full'>
         <CardHeader>
-          <CardDescription>Average Loss %</CardDescription>
-          <CardTitle className='text-3xl'>-2%</CardTitle>
-          <CardDescription>20.1% from last month</CardDescription>
+          <CardDescription>Best Monthly Edge</CardDescription>
+          <CardTitle className='text-2xl xl:text-3xl'>2.72</CardTitle>
+          <CardDescription>Feb 2026</CardDescription>
         </CardHeader>
       </Card>
       <Card className='w-full'>
         <CardHeader>
-          <CardDescription>Edge</CardDescription>
-          <CardTitle className='text-3xl'>1.72</CardTitle>
-          <CardDescription>20.1% from last month</CardDescription>
+          <CardDescription>Worst Monthly Edge</CardDescription>
+          <CardTitle className='text-2xl xl:text-3xl'>0.72</CardTitle>
+          <CardDescription>Jan 2026</CardDescription>
+        </CardHeader>
+      </Card>
+      <Card className='w-full'>
+        <CardHeader>
+          <CardDescription>Months with Positive Edge</CardDescription>
+          <CardTitle className='text-2xl xl:text-3xl'>6/12</CardTitle>
+          <CardDescription>50%</CardDescription>
         </CardHeader>
       </Card>
     </section>

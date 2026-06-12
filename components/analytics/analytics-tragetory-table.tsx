@@ -3,7 +3,7 @@ import { DataTable } from '../ui/data-table';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
 import { trajectoryColumns } from '../trajectory-columns';
 
-const DashboardTrajectoryTable = () => {
+const AnalyticsTrajectoryTable = () => {
   return (
     <section>
       <Card className='w-full'>
@@ -18,4 +18,4 @@ const DashboardTrajectoryTable = () => {
     </section>
   );
 };
-export default DashboardTrajectoryTable;
+export default AnalyticsTrajectoryTable;

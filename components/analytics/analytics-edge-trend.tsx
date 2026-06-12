@@ -21,11 +21,11 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-const BellCurveLast3Years = () => {
+const EdgeTrend = () => {
   return (
     <Card className='w-full'>
       <CardHeader>
-        <CardTitle>Bell Curve Comparison for Last 3 years</CardTitle>
+        <CardTitle>Edge Trend</CardTitle>
         <CardDescription>Your exercise minutes are ahead of where you normally are.</CardDescription>
       </CardHeader>
       <CardContent>
@@ -94,4 +94,4 @@ const BellCurveLast3Years = () => {
     </Card>
   );
 };
-export default BellCurveLast3Years;
+export default EdgeTrend;
