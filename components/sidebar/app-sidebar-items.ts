@@ -1,46 +1,37 @@
-import {
-  BarChartIcon,
-  FolderIcon,
-  HelpCircleIcon,
-  LayoutDashboard,
-  ListIcon,
-  SearchIcon,
-  SettingsIcon,
-  UsersIcon,
-} from 'lucide-react';
+import { BarChartIcon, LayoutDashboard, SettingsIcon, ChartCandlestick } from 'lucide-react';
 
 export const appSidebar = {
   user: {
-    name: 'shadcn',
-    email: 'm@example.com',
-    avatar: '/avatars/shadcn.jpg',
+    name: 'abhimanyu',
+    email: 'mail2abhimanyu.gupta@gmail.com',
+    avatar: '/avatars/abhimanyu.jpg',
   },
   mainMenuItems: [
     {
-      title: 'Dashboard',
-      url: '#',
+      title: 'Home',
+      url: '/',
       icon: LayoutDashboard,
     },
     {
-      title: 'Lifecycle',
-      url: '#',
-      icon: ListIcon,
+      title: 'Trades',
+      url: '/trades',
+      icon: ChartCandlestick,
     },
     {
       title: 'Analytics',
-      url: '#',
+      url: '/analytics',
       icon: BarChartIcon,
     },
-    {
-      title: 'Projects',
-      url: '#',
-      icon: FolderIcon,
-    },
-    {
-      title: 'Team',
-      url: '#',
-      icon: UsersIcon,
-    },
+    // {
+    //   title: 'Projects',
+    //   url: '#',
+    //   icon: FolderIcon,
+    // },
+    // {
+    //   title: 'Team',
+    //   url: '#',
+    //   icon: UsersIcon,
+    // },
   ],
   secondaryMenuItems: [
     {
