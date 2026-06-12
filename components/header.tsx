@@ -3,7 +3,7 @@ import { SidebarTrigger } from './ui/sidebar';
 
 const Header = () => {
   return (
-    <header className='w-full flex items-center justify-between p-3'>
+    <header className='w-full flex items-center justify-between'>
       <SidebarTrigger />
       <ThemeToggle />
     </header>

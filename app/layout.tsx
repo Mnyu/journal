@@ -38,7 +38,7 @@ export default function RootLayout({
           <TooltipProvider>
             <SidebarProvider>
               <AppSidebar />
-              <main className='w-full flex flex-col'>
+              <main className='w-full flex flex-col p-3'>
                 <Header />
                 {children}
               </main>

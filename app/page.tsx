@@ -1,10 +1,13 @@
-import { Button } from '@/components/ui/button';
+import DashBoardHeader from '@/components/dashboard/dashboard-header';
+import KPI from '@/components/dashboard/kpi';
 
-export default function Home() {
+const Home = () => {
   return (
-    <div className='h-full'>
-      <h1>Hello</h1>
-      <Button>Click me</Button>
-    </div>
+    <section className='flex flex-col w-full gap-5'>
+      <DashBoardHeader />
+      <KPI />
+    </section>
   );
-}
+};
+
+export default Home;

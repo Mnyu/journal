@@ -8,7 +8,7 @@ export const appSidebar = {
   },
   mainMenuItems: [
     {
-      title: 'Home',
+      title: 'Dashboard',
       url: '/',
       icon: LayoutDashboard,
     },
