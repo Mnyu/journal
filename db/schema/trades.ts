@@ -1,19 +1,48 @@
-import { date, numeric, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
+import { relations } from 'drizzle-orm';
+import { date, index, numeric, pgTable, timestamp, unique, uuid, varchar } from 'drizzle-orm/pg-core';
+import { tradeReviews } from './tradeReviews';
+import { tradeTags } from './trade_tags';
+import { users } from './users';
 
-export const trades = pgTable('trades', {
-  id: uuid('id').primaryKey().defaultRandom(),
-  orderId: varchar('orderId', { length: 100 }).notNull(),
-  symbol: varchar('symbol', { length: 20 }).notNull(),
-  strategy: varchar('strategy', { length: 255 }),
-  entry: numeric('entry').notNull(),
-  quantity: numeric('quantity').notNull(),
-  risk: numeric('risk').notNull(),
-  exit: numeric('exit'),
-  entryDate: date('entry_date').notNull(),
-  exitDate: date('exit_date'),
-  return: numeric('return'),
-  returnPercent: numeric('return_percent'),
-  rMultiple: numeric('r_multiple'),
-  createdAt: timestamp('created_at').defaultNow(),
-  updatedAt: timestamp('updated_at').defaultNow(),
-});
+export const trades = pgTable(
+  'trades',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    userId: uuid('user_id')
+      .references(() => users.id, {
+        onDelete: 'cascade',
+      })
+      .notNull(),
+    orderId: varchar('orderId', { length: 100 }).notNull(),
+    symbol: varchar('symbol', { length: 20 }).notNull(),
+    strategy: varchar('strategy', { length: 255 }),
+    entry: numeric('entry').notNull(),
+    quantity: numeric('quantity').notNull(),
+    risk: numeric('risk').notNull(),
+    exit: numeric('exit'),
+    entryDate: date('entry_date').notNull(),
+    exitDate: date('exit_date'),
+    return: numeric('return'),
+    returnPercent: numeric('return_percent'),
+    rMultiple: numeric('r_multiple'),
+    createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => [
+    unique('trades_order_id_unique').on(table.orderId),
+    index('trades_entrydate_idx').on(table.entryDate),
+    index('trades_exitdate_idx').on(table.exitDate),
+  ],
+);
+
+export const tradesRelations = relations(trades, ({ one, many }) => ({
+  user: one(users, {
+    fields: [trades.userId],
+    references: [users.id],
+  }),
+  reviews: many(tradeReviews),
+  tradeTags: many(tradeTags),
+}));
+
+export type Trade = typeof trades.$inferSelect;
+export type NewTrade = typeof trades.$inferInsert;
