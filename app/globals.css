@@ -25,10 +25,10 @@
   --input: rgb(180, 178, 167);
   --ring: rgb(201, 100, 66);
   --chart-1: rgb(176, 87, 48);
-  --chart-2: rgb(156, 135, 245);
-  --chart-3: rgb(222, 216, 196);
-  --chart-4: rgb(219, 211, 240);
-  --chart-5: rgb(180, 85, 45);
+  --chart-2: rgb(58, 91, 160);
+  --chart-3: rgb(104, 159, 56);
+  --chart-4: rgb(160, 74, 108);
+  --chart-5: rgb(126, 156, 160);
   --sidebar: rgb(245, 244, 238);
   --sidebar-foreground: rgb(61, 61, 58);
   --sidebar-primary: rgb(201, 100, 66);
@@ -59,6 +59,8 @@
   --shadow-2xl: 0 1px 3px 0px hsl(0 0% 0% / 0.25);
   --tracking-normal: 0em;
   --spacing: 0.25rem;
+  --green: rgb(104, 159, 56);
+  --red: rgb(229, 57, 53);
 }
 
 .dark {
@@ -82,10 +84,10 @@
   --input: rgb(82, 81, 74);
   --ring: rgb(217, 119, 87);
   --chart-1: rgb(176, 87, 48);
-  --chart-2: rgb(156, 135, 245);
-  --chart-3: rgb(26, 25, 21);
-  --chart-4: rgb(47, 43, 72);
-  --chart-5: rgb(180, 85, 45);
+  --chart-2: rgb(58, 91, 160);
+  --chart-3: rgb(104, 159, 56);
+  --chart-4: rgb(229, 57, 53);
+  --chart-5: rgb(126, 156, 160);
   --sidebar: rgb(31, 30, 29);
   --sidebar-foreground: rgb(195, 192, 182);
   --sidebar-primary: rgb(52, 52, 52);
@@ -114,6 +116,8 @@
   --shadow-lg: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 4px 6px -1px hsl(0 0% 0% / 0.1);
   --shadow-xl: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 8px 10px -1px hsl(0 0% 0% / 0.1);
   --shadow-2xl: 0 1px 3px 0px hsl(0 0% 0% / 0.25);
+  --green: rgb(104, 159, 56);
+  --red: rgb(229, 57, 53);
 }
 
 @theme inline {

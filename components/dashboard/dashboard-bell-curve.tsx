@@ -2,16 +2,14 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '../ui/chart';
-import { CartesianGrid, Legend, Line, LineChart, ReferenceLine, XAxis, YAxis } from 'recharts';
+import { Area, AreaChart, CartesianGrid, Legend, Line, LineChart, ReferenceLine, XAxis, YAxis } from 'recharts';
 
 const chartData = [
-  { returnPercent: -5, '2023': 2, '2024': null, '2025': null },
-  { returnPercent: -3, '2023': null, '2024': 5, '2025': null },
-  { returnPercent: -1, '2023': null, '2024': null, '2025': 8 },
-  { returnPercent: 1, '2023': 15, '2024': 18, '2025': 22 },
-  { returnPercent: 5, '2023': 10, '2024': 8, '2025': 14 },
-  { returnPercent: 10, '2023': 5, '2024': 7, '2025': 9 },
-  { returnPercent: 15, '2023': 0, '2024': 3, '2025': 4 },
+  { returnPercent: -1, '2025': 8 },
+  { returnPercent: 1, '2025': 22 },
+  { returnPercent: 5, '2025': 14 },
+  { returnPercent: 10, '2025': 9 },
+  { returnPercent: 15, '2025': 4 },
 ];
 
 const chartConfig = {
@@ -31,9 +29,17 @@ const DashboardBellCurve = () => {
         </CardHeader>
         <CardContent>
           <ChartContainer config={chartConfig} className='w-full max-h-[250px]'>
-            <LineChart accessibilityLayer data={chartData}>
-              <CartesianGrid vertical={true} />
+            <AreaChart
+              data={chartData}
+              margin={{
+                left: 0,
+                right: 0,
+              }}
+              className='size-fit'
+            >
+              <ReferenceLine x={0} label='x = 0' />
               <XAxis
+                domain={[(dataMin: number) => dataMin - 5, (dataMax: number) => dataMax + 5]}
                 type='number'
                 dataKey='returnPercent'
                 label={{
@@ -48,14 +54,16 @@ const DashboardBellCurve = () => {
                   angle: -90,
                 }}
               />
-              <Line
+              <Area
                 type='monotone'
                 dataKey='2025'
                 connectNulls={true}
-                strokeWidth={2}
+                fill='var(--color-trades)'
+                fillOpacity={0.05}
                 stroke='var(--color-trades)'
+                strokeWidth={2}
                 dot={{
-                  fill: 'var(--color-trades)',
+                  fill: 'var(--primary)',
                 }}
                 activeDot={{
                   r: 5,
@@ -63,7 +71,7 @@ const DashboardBellCurve = () => {
               />
               <ChartTooltip content={<ChartTooltipContent />} />
               <Legend verticalAlign='top' align='right' />
-            </LineChart>
+            </AreaChart>
           </ChartContainer>
         </CardContent>
       </Card>

@@ -6,28 +6,28 @@ const AnalyticsKPIs = () => {
       <Card className='w-full'>
         <CardHeader>
           <CardDescription>Current Edge</CardDescription>
-          <CardTitle className='text-2xl xl:text-3xl'>2.72</CardTitle>
+          <CardTitle className='text-2xl xl:text-3xl text-[var(--green)]'>2.72</CardTitle>
           <CardDescription>MTD</CardDescription>
         </CardHeader>
       </Card>
       <Card className='w-full'>
         <CardHeader>
           <CardDescription>Avg Edge</CardDescription>
-          <CardTitle className='text-2xl xl:text-3xl'>2.72</CardTitle>
+          <CardTitle className='text-2xl xl:text-3xl text-[var(--green)]'>2.72</CardTitle>
           <CardDescription>Last 12 months</CardDescription>
         </CardHeader>
       </Card>
       <Card className='w-full'>
         <CardHeader>
           <CardDescription>Best Monthly Edge</CardDescription>
-          <CardTitle className='text-2xl xl:text-3xl'>2.72</CardTitle>
+          <CardTitle className='text-2xl xl:text-3xl text-[var(--green)]'>2.72</CardTitle>
           <CardDescription>Feb 2026</CardDescription>
         </CardHeader>
       </Card>
       <Card className='w-full'>
         <CardHeader>
           <CardDescription>Worst Monthly Edge</CardDescription>
-          <CardTitle className='text-2xl xl:text-3xl'>0.72</CardTitle>
+          <CardTitle className='text-2xl xl:text-3xl text-[var(--red)]'>0.72</CardTitle>
           <CardDescription>Jan 2026</CardDescription>
         </CardHeader>
       </Card>

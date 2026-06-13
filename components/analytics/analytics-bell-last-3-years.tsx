@@ -2,7 +2,7 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '../ui/chart';
-import { CartesianGrid, Legend, Line, LineChart, ReferenceLine, XAxis, YAxis } from 'recharts';
+import { Area, AreaChart, CartesianGrid, Legend, Line, LineChart, ReferenceLine, XAxis, YAxis } from 'recharts';
 
 const chartData = [
   { returnPercent: -5, '2023': 2, '2024': null, '2025': null },
@@ -17,7 +17,6 @@ const chartData = [
 const chartConfig = {
   trades: {
     label: 'Trades',
-    color: 'var(--primary)',
   },
 } satisfies ChartConfig;
 
@@ -30,9 +29,17 @@ const BellCurveLast3Years = () => {
       </CardHeader>
       <CardContent className='pl-0'>
         <ChartContainer config={chartConfig} className='w-full max-h-[250px]'>
-          <LineChart accessibilityLayer data={chartData}>
-            <CartesianGrid vertical={true} />
+          <AreaChart
+            data={chartData}
+            margin={{
+              left: 0,
+              right: 0,
+            }}
+            className='size-fit'
+          >
+            <ReferenceLine x={0} label='x = 0' />
             <XAxis
+              domain={[(dataMin: number) => dataMin - 5, (dataMax: number) => dataMax + 5]}
               type='number'
               dataKey='returnPercent'
               label={{
@@ -47,40 +54,46 @@ const BellCurveLast3Years = () => {
                 angle: -90,
               }}
             />
-            <Line
+            <Area
               type='monotone'
               dataKey='2023'
               connectNulls={true}
+              fill='var(--color-chart-1)'
+              fillOpacity={0.05}
+              stroke='var(--color-chart-1)'
               strokeWidth={2}
-              stroke='var(--color-trades)'
               dot={{
-                fill: 'var(--color-trades)',
+                fill: 'var(--color-chart-1)',
               }}
               activeDot={{
                 r: 5,
               }}
             />
-            <Line
+            <Area
               type='monotone'
               dataKey='2024'
               connectNulls={true}
+              fill='var(--color-chart-2)'
+              fillOpacity={0.05}
+              stroke='var(--color-chart-2)'
               strokeWidth={2}
-              stroke='var(--color-trades)'
               dot={{
-                fill: 'var(--color-trades)',
+                fill: 'var(--color-chart-2)',
               }}
               activeDot={{
                 r: 5,
               }}
             />
-            <Line
+            <Area
               type='monotone'
               dataKey='2025'
               connectNulls={true}
+              fill='var(--color-chart-3)'
+              fillOpacity={0.05}
+              stroke='var(--color-chart-3)'
               strokeWidth={2}
-              stroke='var(--color-trades)'
               dot={{
-                fill: 'var(--color-trades)',
+                fill: 'var(--color-chart-3)',
               }}
               activeDot={{
                 r: 5,
@@ -88,7 +101,7 @@ const BellCurveLast3Years = () => {
             />
             <ChartTooltip content={<ChartTooltipContent />} />
             <Legend verticalAlign='top' align='right' />
-          </LineChart>
+          </AreaChart>
         </ChartContainer>
       </CardContent>
     </Card>
