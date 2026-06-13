@@ -1,9 +1,8 @@
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { TrendingUp } from 'lucide-react';
 
 const DashboardKPIs = () => {
   return (
-    <section className='flex items-center gap-5'>
+    <section className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-4 p-1'>
       <Card className='w-full'>
         <CardHeader>
           <CardDescription>Trend</CardDescription>

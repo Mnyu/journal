@@ -30,7 +30,7 @@ const DashboardBellCurve = () => {
           <CardDescription>Your exercise minutes are ahead of where you normally are.</CardDescription>
         </CardHeader>
         <CardContent>
-          <ChartContainer config={chartConfig} className='w-full h-[20vh] min-h-[250px]'>
+          <ChartContainer config={chartConfig} className='w-full max-h-[250px]'>
             <LineChart accessibilityLayer data={chartData}>
               <CartesianGrid vertical={true} />
               <XAxis
