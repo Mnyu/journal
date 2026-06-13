@@ -7,15 +7,15 @@ import AnalyticsWinRate from '@/components/analytics/analytics-win-rate';
 
 const Analytics = () => {
   return (
-    <section className='w-full flex flex-col gap-3 p-1 overflow-auto'>
+    <section className='h-full w-full flex flex-col gap-3 p-1 overflow-auto'>
       <AnalyticsHeader />
       <AnalyticsKPIs />
-      <section className='grid grid-cols-1 lg:grid-cols-2 gap-4 p-1'>
+      <section className='h-full grid grid-cols-1 xl:grid-cols-3 gap-4 p-1'>
         <EdgeTrend />
         <BellCurveLast3Years />
-      </section>
-      <section className='grid grid-cols-1 lg:grid-cols-2 gap-4 p-1'>
         <AnalyticsWinRate />
+      </section>
+      <section className='h-full'>
         <AnalyticsTrajectoryTable />
       </section>
     </section>

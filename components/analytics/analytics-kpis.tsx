@@ -1,9 +1,8 @@
-import { TrendingUp } from 'lucide-react';
 import { Card, CardDescription, CardHeader, CardTitle } from '../ui/card';
 
 const AnalyticsKPIs = () => {
   return (
-    <section className='flex items-center gap-4 p-1'>
+    <section className='grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4 p-1'>
       <Card className='w-full'>
         <CardHeader>
           <CardDescription>Current Edge</CardDescription>
