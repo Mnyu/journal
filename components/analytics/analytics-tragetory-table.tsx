@@ -12,7 +12,7 @@ const AnalyticsTrajectoryTable = () => {
           <CardDescription>Your exercise minutes are ahead of where you normally are.</CardDescription>
         </CardHeader>
         <CardContent>
-          <DataTable columns={trajectoryColumns} data={trajectories} />
+          <DataTable columns={trajectoryColumns} data={trajectories} pagination={false} />
         </CardContent>
       </Card>
     </section>
