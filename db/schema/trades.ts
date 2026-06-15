@@ -1,7 +1,7 @@
 import { relations } from 'drizzle-orm';
 import { date, index, numeric, pgTable, timestamp, unique, uuid, varchar } from 'drizzle-orm/pg-core';
-import { tradeReviews } from './tradeReviews';
-import { tradeTags } from './trade_tags';
+import { tradeReviews } from './trade-reviews';
+import { tradeTags } from './trade-tags';
 import { users } from './users';
 
 export const trades = pgTable(
