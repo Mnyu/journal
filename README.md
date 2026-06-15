@@ -10,7 +10,7 @@
 
     bun --env-file=.env.local run db:migrate
 
-    bun --env-file=.env.local run db:migrate
+    bun --env-file=.env.local run db:seed
     ```
 
 ## Stopping the app in local

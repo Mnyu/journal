@@ -1,5 +1,5 @@
 import { relations } from 'drizzle-orm';
-import { date, index, numeric, pgTable, timestamp, unique, uuid, varchar } from 'drizzle-orm/pg-core';
+import { date, index, integer, numeric, pgTable, timestamp, unique, uuid, varchar } from 'drizzle-orm/pg-core';
 import { tradeReviews } from './trade-reviews';
 import { tradeTags } from './trade-tags';
 import { users } from './users';
@@ -17,7 +17,7 @@ export const trades = pgTable(
     symbol: varchar('symbol', { length: 20 }).notNull(),
     strategy: varchar('strategy', { length: 255 }),
     entry: numeric('entry').notNull(),
-    quantity: numeric('quantity').notNull(),
+    quantity: integer('quantity').notNull(),
     risk: numeric('risk').notNull(),
     exit: numeric('exit'),
     entryDate: date('entry_date').notNull(),
