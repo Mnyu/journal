@@ -1,7 +1,7 @@
 import { db } from '@/db/client';
 import { MonthlyStat, monthlyStatsTable } from '@/db/schema';
 import { eq } from 'drizzle-orm';
-import { monthlyDistributionorCurrentMonthSql, monthlyStatForCurrentMonthSql } from './native-queries';
+import { monthlyDistributionForCurrentMonthSql, monthlyStatForCurrentMonthSql } from './native-queries';
 import { executeNativeSqlFirstResult } from './utils.repository';
 import { DistributionPoint } from '@/types/domain';
 
@@ -17,7 +17,7 @@ export const getMonthlyStatForCurrentMonth = async (): Promise<MonthlyStat | nul
   }
 
   let distribution: DistributionPoint[] = [];
-  const dbDistribution = await executeNativeSqlFirstResult(monthlyDistributionorCurrentMonthSql);
+  const dbDistribution = await executeNativeSqlFirstResult(monthlyDistributionForCurrentMonthSql);
   if (dbDistribution) {
     distribution = dbDistribution.distribution as DistributionPoint[];
   }

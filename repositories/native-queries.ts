@@ -33,7 +33,7 @@ export const monthlyStatForCurrentMonthSql = `
     from stats
   `;
 
-export const monthlyDistributionorCurrentMonthSql = `
+export const monthlyDistributionForCurrentMonthSql = `
   with distribution as(
     select 
       to_char(date_trunc('month', exit_date),'YYYY-MM') as year_month,
