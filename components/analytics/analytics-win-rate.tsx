@@ -3,7 +3,7 @@
 import { Bar, BarChart, CartesianGrid, LabelList, XAxis, YAxis } from 'recharts';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
 import { ChartConfig, ChartContainer } from '../ui/chart';
-import { winPercents } from '@/config/winRate';
+import { MonthlyWinRateDTO } from '@/types/dto';
 
 const chartConfig = {
   winPercent: {
@@ -12,7 +12,13 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-const AnalyticsWinRate = () => {
+interface AnalyticsWinRateProps {
+  winRates: MonthlyWinRateDTO[];
+}
+
+const AnalyticsWinRate = ({ winRates }: AnalyticsWinRateProps) => {
+  winRates = winRates.slice(0, 6).reverse();
+
   return (
     <Card className='w-full'>
       <CardHeader>
@@ -21,13 +27,13 @@ const AnalyticsWinRate = () => {
       </CardHeader>
       <CardContent className='pl-0'>
         <ChartContainer config={chartConfig} className='w-full max-h-[250px]'>
-          <BarChart accessibilityLayer data={winPercents}>
+          <BarChart accessibilityLayer data={winRates}>
             <CartesianGrid vertical={false} />
             {/* <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel hideIndicator />} /> */}
             <XAxis dataKey='month' />
-            <YAxis dataKey='winPercent' domain={[0, 100]} />
-            <Bar dataKey='winPercent' shape={<CustomBar />}>
-              <LabelList dataKey='winPercent' position='top' formatter={(value) => `${value}%`} />
+            <YAxis dataKey='winRate' domain={[0, 100]} />
+            <Bar dataKey='winRate' shape={<CustomBar />}>
+              <LabelList dataKey='winRate' position='top' formatter={(value) => `${value}%`} />
             </Bar>
           </BarChart>
         </ChartContainer>

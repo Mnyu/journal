@@ -1,17 +1,9 @@
 'use client';
 
+import { MonthlyEdgeDTO } from '@/types/dto';
+import { CartesianGrid, LabelList, Line, LineChart, XAxis, YAxis } from 'recharts';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '../ui/chart';
-import { CartesianGrid, LabelList, Legend, Line, LineChart, ReferenceLine, XAxis, YAxis } from 'recharts';
-
-export const edges = [
-  { xvalue: 'January', edge: 2.98 },
-  { xvalue: 'February', edge: 1.72 },
-  { xvalue: 'March', edge: 2.43 },
-  { xvalue: 'April', edge: 1.61 },
-  { xvalue: 'May', edge: 2.12 },
-  { xvalue: 'June', edge: 2.76 },
-];
 
 const chartConfig = {
   edge: {
@@ -20,7 +12,13 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-const EdgeTrend = () => {
+interface EdgeTrendProps {
+  edges: MonthlyEdgeDTO[];
+}
+
+const EdgeTrend = ({ edges }: EdgeTrendProps) => {
+  edges = edges.slice(0, 6).reverse();
+
   return (
     <Card className='w-full'>
       <CardHeader>
@@ -33,7 +31,7 @@ const EdgeTrend = () => {
             <CartesianGrid vertical={true} />
             <XAxis
               type='category'
-              dataKey='xvalue'
+              dataKey='month'
               label={{
                 value: 'Month',
                 position: 'insideBottom',

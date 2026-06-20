@@ -1,41 +1,50 @@
+import { AnalyticsTO } from '@/types/dto';
 import { Card, CardDescription, CardHeader, CardTitle } from '../ui/card';
 
-const AnalyticsKPIs = () => {
+interface AnalyticsKPIsProps {
+  analytics: AnalyticsTO;
+}
+
+const AnalyticsKPIs = ({ analytics }: AnalyticsKPIsProps) => {
   return (
     <section className='grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4 p-1'>
       <Card className='w-full'>
         <CardHeader>
           <CardDescription>Current Edge</CardDescription>
-          <CardTitle className='text-2xl xl:text-3xl text-[var(--green)]'>2.72</CardTitle>
+          <CardTitle className='text-2xl xl:text-3xl text-[var(--green)]'>{analytics.currentEdge}</CardTitle>
           <CardDescription>MTD</CardDescription>
         </CardHeader>
       </Card>
       <Card className='w-full'>
         <CardHeader>
           <CardDescription>Avg Edge</CardDescription>
-          <CardTitle className='text-2xl xl:text-3xl text-[var(--green)]'>2.72</CardTitle>
+          <CardTitle
+            className={`text-2xl xl:text-3xl ${analytics.avgEdge >= 2 ? 'text-[var(--green)]' : 'text-[var(--red)]'}`}
+          >
+            {analytics.avgEdge}
+          </CardTitle>
           <CardDescription>Last 12 months</CardDescription>
         </CardHeader>
       </Card>
       <Card className='w-full'>
         <CardHeader>
           <CardDescription>Best Monthly Edge</CardDescription>
-          <CardTitle className='text-2xl xl:text-3xl text-[var(--green)]'>2.72</CardTitle>
-          <CardDescription>Feb 2026</CardDescription>
+          <CardTitle className='text-2xl xl:text-3xl text-[var(--green)]'>{analytics.bestEdge}</CardTitle>
+          <CardDescription>{analytics.bestEdgeMonth}</CardDescription>
         </CardHeader>
       </Card>
       <Card className='w-full'>
         <CardHeader>
           <CardDescription>Worst Monthly Edge</CardDescription>
-          <CardTitle className='text-2xl xl:text-3xl text-[var(--red)]'>0.72</CardTitle>
-          <CardDescription>Jan 2026</CardDescription>
+          <CardTitle className='text-2xl xl:text-3xl text-[var(--red)]'>{analytics.worstEdge}</CardTitle>
+          <CardDescription>{analytics.worstEdgeMonth}</CardDescription>
         </CardHeader>
       </Card>
       <Card className='w-full'>
         <CardHeader>
-          <CardDescription>Months with Positive Edge</CardDescription>
-          <CardTitle className='text-2xl xl:text-3xl'>6/12</CardTitle>
-          <CardDescription>50%</CardDescription>
+          <CardDescription>Months with Edge &ge; 2</CardDescription>
+          <CardTitle className='text-2xl xl:text-3xl'>{analytics.monthsWithEdgeMoreThan2}</CardTitle>
+          <CardDescription>Last 12 months</CardDescription>
         </CardHeader>
       </Card>
     </section>

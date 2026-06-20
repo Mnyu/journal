@@ -53,4 +53,33 @@ export type TradeDTO = {
   updatedAt: string;
 };
 
+export type YearDistributionDTO = {
+  returnPercent: number;
+  year: number;
+  numberOfTrades: number;
+};
+
+export type MonthlyEdgeDTO = {
+  month: string;
+  edge: number;
+};
+
+export type MonthlyWinRateDTO = {
+  month: string;
+  winRate: number;
+};
+
+export type AnalyticsTO = {
+  currentEdge: number;
+  avgEdge: number;
+  bestEdge: number;
+  bestEdgeMonth: string;
+  worstEdge: number;
+  worstEdgeMonth: string;
+  monthsWithEdgeMoreThan2: number;
+  winRates: MonthlyWinRateDTO[];
+  edges: MonthlyEdgeDTO[];
+  last3YearsDistributions: YearDistributionDTO[];
+};
+
 // ***************** SPECIFIC - END ************************

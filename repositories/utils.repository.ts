@@ -9,3 +9,11 @@ export const executeNativeSqlFirstResult = async (nativeSql: string): Promise<Re
   }
   return row;
 };
+
+export const executeNativeSql = async (nativeSql: string): Promise<Record<string, unknown>[]> => {
+  const result = await db.execute(sql.raw(nativeSql));
+  if (!result || !result.rows) {
+    return [];
+  }
+  return result.rows;
+};
