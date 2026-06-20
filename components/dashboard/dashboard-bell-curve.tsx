@@ -54,6 +54,7 @@ const DashboardBellCurve = ({ distribution }: DashboardBellCurveProps) => {
               <Area
                 type='monotone'
                 dataKey='numberOfTrades'
+                name='No of Trades'
                 connectNulls={true}
                 fill='var(--color-trades)'
                 fillOpacity={0.05}
