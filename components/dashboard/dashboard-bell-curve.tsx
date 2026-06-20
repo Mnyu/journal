@@ -1,16 +1,9 @@
 'use client';
 
+import { DistributionPointDTO } from '@/types/dto';
+import { Area, AreaChart, Legend, ReferenceLine, XAxis, YAxis } from 'recharts';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '../ui/chart';
-import { Area, AreaChart, CartesianGrid, Legend, Line, LineChart, ReferenceLine, XAxis, YAxis } from 'recharts';
-
-const chartData = [
-  { returnPercent: -1, '2025': 8 },
-  { returnPercent: 1, '2025': 22 },
-  { returnPercent: 5, '2025': 14 },
-  { returnPercent: 10, '2025': 9 },
-  { returnPercent: 15, '2025': 4 },
-];
 
 const chartConfig = {
   trades: {
@@ -19,7 +12,11 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-const DashboardBellCurve = () => {
+interface DashboardBellCurveProps {
+  distribution: DistributionPointDTO[];
+}
+
+const DashboardBellCurve = ({ distribution }: DashboardBellCurveProps) => {
   return (
     <section>
       <Card className='w-full'>
@@ -30,7 +27,7 @@ const DashboardBellCurve = () => {
         <CardContent>
           <ChartContainer config={chartConfig} className='w-full max-h-[250px]'>
             <AreaChart
-              data={chartData}
+              data={distribution}
               margin={{
                 left: 0,
                 right: 0,
@@ -50,13 +47,13 @@ const DashboardBellCurve = () => {
               />
               <YAxis
                 label={{
-                  value: 'Trade Frequency (%)',
+                  value: 'No of Trades',
                   angle: -90,
                 }}
               />
               <Area
                 type='monotone'
-                dataKey='2025'
+                dataKey='numberOfTrades'
                 connectNulls={true}
                 fill='var(--color-trades)'
                 fillOpacity={0.05}

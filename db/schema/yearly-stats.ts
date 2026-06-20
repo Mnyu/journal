@@ -1,5 +1,5 @@
-import { integer, jsonb, numeric, pgTable, uuid, varchar } from 'drizzle-orm/pg-core';
-import { DistributionPoint } from '../types';
+import { DistributionPoint } from '@/types/domain';
+import { integer, jsonb, numeric, pgTable } from 'drizzle-orm/pg-core';
 
 export const yearlyStats = pgTable(
   'yearly_stats',
@@ -17,3 +17,6 @@ export const yearlyStats = pgTable(
   },
   (table) => [],
 );
+
+export type YearlyStat = typeof yearlyStats.$inferSelect;
+export type NewYearlyStat = typeof yearlyStats.$inferInsert;
