@@ -1,4 +1,4 @@
-import { Trajectory } from '@/components/dashboard/dashboard-trajectory-columns';
+import { Trajectory } from '@/components/trajectory-columns';
 
 export const trajectories: Trajectory[] = [
   {

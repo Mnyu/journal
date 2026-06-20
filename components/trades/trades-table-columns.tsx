@@ -1,34 +1,11 @@
 'use client';
 
+import { TradeDTO } from '@/types/dto';
 import { ColumnDef } from '@tanstack/react-table';
-import { ChevronsUpDown, MoreVertical, Pencil } from 'lucide-react';
-import { Button } from '../ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '../ui/dropdown-menu';
+import { Pencil } from 'lucide-react';
 import Link from 'next/link';
 
-export type Trade = {
-  id: string;
-  symbol: string;
-  strategy: string;
-  entry: number;
-  quantity: number;
-  risk: number;
-  exit: number;
-  entryDate: string;
-  exitDate: string;
-  gain: number;
-  gainPercent: number;
-  rMultiple: number;
-};
-
-export const columns: ColumnDef<Trade>[] = [
+export const columns: ColumnDef<TradeDTO>[] = [
   {
     accessorKey: 'symbol',
     header: 'Symbol',
@@ -71,14 +48,14 @@ export const columns: ColumnDef<Trade>[] = [
     header: 'Exit Date',
   },
   {
-    accessorKey: 'gain',
-    header: 'Gain',
-    cell: ({ row }) => formatAmountInInr(row.getValue('gain')),
+    accessorKey: 'return',
+    header: 'Return',
+    cell: ({ row }) => formatAmountInInr(row.getValue('return')),
   },
   {
-    accessorKey: 'gainPercent',
-    header: 'Gain %',
-    cell: ({ row }) => <span>{row.getValue('exit')}%</span>,
+    accessorKey: 'returnPercent',
+    header: 'Return %',
+    cell: ({ row }) => <span>{row.getValue('returnPercent')}%</span>,
   },
   {
     accessorKey: 'rMultiple',

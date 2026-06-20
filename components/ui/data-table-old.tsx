@@ -4,13 +4,13 @@ import { ColumnDef, flexRender, getCoreRowModel, useReactTable, getPaginationRow
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { DataTablePagination } from './data-table-pagination';
 
-interface DataTableProps<TData, TValue> {
+interface DataTableOldProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   pagination?: boolean;
 }
 
-export function DataTable<TData, TValue>({ columns, data, pagination = true }: DataTableProps<TData, TValue>) {
+export function DataTableOld<TData, TValue>({ columns, data, pagination = true }: DataTableOldProps<TData, TValue>) {
   const table = useReactTable({
     data,
     columns,

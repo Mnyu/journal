@@ -1,7 +1,7 @@
-import { trajectories } from '@/config/dashboard-trajectory';
-import { DataTable } from '../ui/data-table';
+import { trajectories } from '@/config/trajectory';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
 import { trajectoryColumns } from '../trajectory-columns';
+import { DataTable } from '../table/data-table';
 
 const AnalyticsTrajectoryTable = () => {
   return (
@@ -12,7 +12,7 @@ const AnalyticsTrajectoryTable = () => {
           <CardDescription>Your exercise minutes are ahead of where you normally are.</CardDescription>
         </CardHeader>
         <CardContent>
-          <DataTable columns={trajectoryColumns} data={trajectories} pagination={false} />
+          <DataTable columns={trajectoryColumns} data={trajectories} />
         </CardContent>
       </Card>
     </section>
