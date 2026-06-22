@@ -13,7 +13,7 @@ export const trades = pgTable(
         onDelete: 'cascade',
       })
       .notNull(),
-    orderId: varchar('orderId', { length: 100 }).notNull(),
+    orderId: varchar('order_id', { length: 100 }).notNull(),
     symbol: varchar('symbol', { length: 20 }).notNull(),
     strategy: varchar('strategy', { length: 255 }),
     entry: numeric('entry', {
