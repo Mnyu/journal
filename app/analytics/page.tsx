@@ -2,9 +2,9 @@ import AnalyticsHeader from '@/components/analytics/analytics-header';
 import AnalyticsKPIs from '@/components/analytics/analytics-kpis';
 import BellCurveLast3Years from '@/components/analytics/analytics-bell-last-3-years';
 import EdgeTrend from '@/components/analytics/analytics-edge-trend';
-import AnalyticsTrajectoryTable from '@/components/analytics/analytics-tragetory-table';
 import AnalyticsWinRate from '@/components/analytics/analytics-win-rate';
 import { getCurrentAnalytics } from '@/actions/yearly-stats.actions';
+import Trajectory from '@/components/trajectory-table';
 
 const Analytics = async () => {
   const analytics = await getCurrentAnalytics();
@@ -18,7 +18,7 @@ const Analytics = async () => {
         <AnalyticsWinRate winRates={analytics.winRates} />
       </section>
       <section className='h-full'>
-        <AnalyticsTrajectoryTable />
+        <Trajectory />
       </section>
     </section>
   );

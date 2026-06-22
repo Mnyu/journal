@@ -1,35 +1,23 @@
 'use client';
 
+import { TrajectoryDTO } from '@/types/dto';
 import { ColumnDef } from '@tanstack/react-table';
 
-export type Trajectory = {
-  id: string;
-  window: string;
-  winPercent: number;
-  riskReward: string;
-  edge: number;
-  avgWinPercent: number;
-};
-
-export const trajectoryColumns: ColumnDef<Trajectory>[] = [
+export const trajectoryColumns: ColumnDef<TrajectoryDTO>[] = [
   {
-    accessorKey: 'window',
-    header: 'Window',
+    accessorKey: 'period',
+    header: 'Period',
   },
   {
-    accessorKey: 'winPercent',
+    accessorKey: 'winRate',
     header: 'Win %',
   },
   {
     accessorKey: 'riskReward',
-    header: 'R:R',
+    header: 'Risk : Reward',
   },
   {
     accessorKey: 'edge',
     header: 'Edge',
-  },
-  {
-    accessorKey: 'avgWinPercent',
-    header: 'Avg Win %',
   },
 ];

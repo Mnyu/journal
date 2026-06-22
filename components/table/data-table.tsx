@@ -25,6 +25,15 @@ export const DataTable = <TData, TValue>({
   totalRecords = 1,
 }: DataTableProps<TData, TValue>) => {
   const { updateParams } = useTableUrlState();
+  console.log(columns);
+  columns.forEach((col, i) => {
+    console.log(i, {
+      id: (col as any).id,
+      accessorKey: (col as any).accessorKey,
+      header: typeof (col as any).header,
+      column: col,
+    });
+  });
 
   const table = useReactTable({
     data,

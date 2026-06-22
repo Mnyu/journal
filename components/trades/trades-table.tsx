@@ -1,22 +1,38 @@
+'use client';
+
 import { DataTable } from '../table/data-table';
-import { columns } from './trades-table-columns';
 import { PageResponse, TradeDTO } from '@/types/dto';
+import { tradeColumnsMap } from './trades-table-columns';
 
 interface TradesTableProps {
-  response: PageResponse<TradeDTO>;
+  data: PageResponse<TradeDTO>;
 }
 
-const TradesTable = ({ response }: TradesTableProps) => {
+const TradesTable = ({ data }: TradesTableProps) => {
+  const columns = [
+    tradeColumnsMap.symbol,
+    tradeColumnsMap.strategy,
+    tradeColumnsMap.entry,
+    tradeColumnsMap.quantity,
+    tradeColumnsMap.risk,
+    tradeColumnsMap.exit,
+    tradeColumnsMap.entryDate,
+    tradeColumnsMap.exitDate,
+    tradeColumnsMap.return,
+    tradeColumnsMap.returnPercent,
+    tradeColumnsMap.rMultiple,
+    tradeColumnsMap.edit,
+  ];
   return (
     <section className='w-full mx-auto'>
       <DataTable
         columns={columns}
-        data={response.data}
+        data={data.data}
         pagination={true}
-        page={response.pagination.page}
-        pageSize={response.pagination.pageSize}
-        totalPages={response.pagination.totalPages}
-        totalRecords={response.pagination.totalRecords}
+        page={data.pagination.page}
+        pageSize={data.pagination.pageSize}
+        totalPages={data.pagination.totalPages}
+        totalRecords={data.pagination.totalRecords}
       />
     </section>
   );

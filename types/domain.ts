@@ -14,3 +14,15 @@ export type YearDistribution = {
   year: number;
   numberOfTrades: number;
 };
+
+export type Trajectory = {
+  period: string;
+  noOfTrades: number;
+  wins: number;
+  losses: number;
+  avgGain: number;
+  avgLoss: number;
+  winRate: number;
+  riskReward: number;
+  edge: number;
+};

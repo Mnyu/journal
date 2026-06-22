@@ -100,3 +100,76 @@ export const last3YearsDistributionSql = `
   group by round(return_percent, 0), extract(year FROM exit_date)
   order by round(return_percent, 0)
 `;
+
+export const trajectorySql = `
+  with trajectory as (
+      select
+          'Last 5' as period,
+          count(*) as trades,
+          count(*) filter (where return >= 0) as wins,
+          count(*) filter (where return < 0) as losses,
+          coalesce(round(avg(return) filter (where return >= 0), 2), 0) as avg_gain,
+          coalesce(round(avg(return) filter (where return < 0), 2), 0) as avg_loss
+      from (
+          select return
+          from trades
+          where exit_date is not null
+          order by exit_date desc
+          limit 5
+      ) t
+
+      union all
+
+      select
+          'Last 10',
+          count(*),
+          count(*) filter (where return >= 0),
+          count(*) filter (where return < 0),
+          coalesce(round(avg(return) filter (where return >= 0), 2), 0),
+          coalesce(round(avg(return) filter (where return < 0), 2), 0)
+      from (
+          select return
+          from trades
+          where exit_date is not null
+          order by exit_date desc
+          limit 10
+      ) t
+
+      union all
+
+      select
+          'Last Month (' || to_char(date_trunc('month', current_date - interval '1 month'),'FMMonth YYYY') || ')' ,
+          count(*),
+          count(*) filter (where return >= 0),
+          count(*) filter (where return < 0),
+          coalesce(round(avg(return) filter (where return >= 0), 2), 0),
+          coalesce(round(avg(return) filter (where return < 0), 2), 0)
+      from trades
+      where exit_date >= date_trunc('month', current_date - interval '1 month')
+        and exit_date < date_trunc('month', current_date)
+
+      union all
+
+      select
+          'Last Year (' || to_char(date_trunc('year', current_date - interval '1 year'), 'YYYY') || ')',
+          count(*),
+          count(*) filter (where return >= 0),
+          count(*) filter (where return < 0),
+          coalesce(round(avg(return) filter (where return >= 0), 2), 0),
+          coalesce(round(avg(return) filter (where return < 0), 2), 0)
+      from trades
+      where exit_date >= date_trunc('year', current_date - interval '1 year')
+        and exit_date < date_trunc('year', current_date)
+  )
+  select
+      period,
+      trades,
+      wins,
+      losses,
+      avg_gain,
+      avg_loss,
+      coalesce(round(wins::numeric * 100 /nullif(wins + losses, 0),2),0) as win_rate,
+      coalesce(round(avg_gain / nullif(abs(avg_loss), 0),2),0) as risk_reward,
+      coalesce(round((avg_gain * wins) /nullif(abs(avg_loss) * losses, 0),2),0) as edge
+  from trajectory;
+`;

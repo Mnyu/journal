@@ -82,4 +82,16 @@ export type AnalyticsTO = {
   last3YearsDistributions: YearDistributionDTO[];
 };
 
+export type TrajectoryDTO = {
+  period: string;
+  noOfTrades: number;
+  wins: number;
+  losses: number;
+  avgGain: number;
+  avgLoss: number;
+  winRate: number;
+  riskReward: number;
+  edge: number;
+};
+
 // ***************** SPECIFIC - END ************************
