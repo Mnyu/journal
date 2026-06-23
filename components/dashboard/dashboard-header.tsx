@@ -1,6 +1,10 @@
-import DateRangePicker from '../date-picker-with-range';
+import MonthSelector from '../month-selector';
 
-const DashBoardHeader = () => {
+interface DashBoardHeaderProps {
+  selectedMonth?: string;
+}
+
+const DashBoardHeader = ({ selectedMonth }: DashBoardHeaderProps) => {
   return (
     <section className='pt-3 px-2 grid grid-cols-1 md:grid-cols-2 gap-2'>
       <div className='flex flex-col gap-2'>
@@ -8,7 +12,7 @@ const DashBoardHeader = () => {
         <p className='text-sm text-muted-foreground'>Your trading performance at a glance</p>
       </div>
       <div className='md:flex items-center justify-end'>
-        <DateRangePicker />
+        <MonthSelector selectedMonth={selectedMonth} />
       </div>
     </section>
   );
