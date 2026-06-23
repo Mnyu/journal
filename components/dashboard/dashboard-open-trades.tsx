@@ -19,7 +19,7 @@ const OpenTradesTable = ({ data }: OpenTradesTableProps) => {
   ];
   return (
     <section>
-      <Card className='w-full'>
+      <Card className='w-full h-full'>
         <CardHeader>
           <CardTitle>Open Trades</CardTitle>
           <CardDescription>Your exercise minutes are ahead of where you normally are.</CardDescription>
