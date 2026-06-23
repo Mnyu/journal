@@ -103,9 +103,9 @@ export const tradeColumnsMap = {
       return <span className={className}>{value}R</span>;
     },
   },
-  edit: {
-    id: 'edit',
-    header: 'Edit',
+  review: {
+    id: 'review',
+    header: 'Review',
     cell: ({ row }) => {
       const trade = row.original;
       return (

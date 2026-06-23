@@ -21,7 +21,7 @@ const TradesTable = ({ data }: TradesTableProps) => {
     tradeColumnsMap.return,
     tradeColumnsMap.returnPercent,
     tradeColumnsMap.rMultiple,
-    tradeColumnsMap.edit,
+    tradeColumnsMap.review,
   ];
   return (
     <section className='w-full mx-auto'>
