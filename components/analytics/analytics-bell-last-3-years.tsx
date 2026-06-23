@@ -83,12 +83,12 @@ const BellCurveLast3Years = ({ last3YearsDistributions }: BellCurveLast3YearsPro
                   dataKey={year}
                   name={String(year)}
                   connectNulls={true}
-                  fill={`var(--color-chart-${colorIndex})`}
+                  fill={`var(--chart-${colorIndex})`}
                   fillOpacity={0.05}
-                  stroke={`var(--color-chart-${colorIndex})`}
+                  stroke={`var(--chart-${colorIndex})`}
                   strokeWidth={2}
                   dot={{
-                    fill: `var(--color-chart-${colorIndex})`,
+                    fill: `var(--chart-${colorIndex})`,
                   }}
                   activeDot={{
                     r: 5,
