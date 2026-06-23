@@ -7,9 +7,9 @@ const AnalyticsHeader = () => {
         <h1 className='text-2xl leading-none font-semibold'>Analytics</h1>
         <p className='text-sm text-muted-foreground'>Insights into your system performance</p>
       </div>
-      <div>
+      {/* <div>
         <DateRangePicker />
-      </div>
+      </div> */}
     </section>
   );
 };

@@ -44,8 +44,8 @@ const BellCurveLast3Years = ({ last3YearsDistributions }: BellCurveLast3YearsPro
   return (
     <Card className='w-full'>
       <CardHeader>
-        <CardTitle>Bell Curve Comparison for Last 3 years</CardTitle>
-        <CardDescription>Your exercise minutes are ahead of where you normally are.</CardDescription>
+        <CardTitle>Return Distribution Comparison for Last 3 years</CardTitle>
+        <CardDescription>Frequency distribution of completed trades by return percentage.</CardDescription>
       </CardHeader>
       <CardContent className='pl-0'>
         <ChartContainer config={chartConfig} className='w-full max-h-[250px]'>

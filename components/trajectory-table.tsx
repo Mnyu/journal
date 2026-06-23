@@ -14,7 +14,7 @@ const Trajectory = async ({ pagination = false }: TrajectoryProps) => {
       <Card className='w-full'>
         <CardHeader>
           <CardTitle>Trajectory</CardTitle>
-          <CardDescription>Your exercise minutes are ahead of where you normally are.</CardDescription>
+          <CardDescription>Win rate, risk-reward ratio and system edge across multiple time horizons.</CardDescription>
         </CardHeader>
         <CardContent>
           <DataTable columns={trajectoryColumns} data={trajectories} pagination={pagination} />

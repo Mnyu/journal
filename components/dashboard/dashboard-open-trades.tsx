@@ -21,8 +21,8 @@ const OpenTradesTable = ({ data }: OpenTradesTableProps) => {
     <section>
       <Card className='w-full h-full'>
         <CardHeader>
-          <CardTitle>Open Trades</CardTitle>
-          <CardDescription>Your exercise minutes are ahead of where you normally are.</CardDescription>
+          <CardTitle>Open Positions</CardTitle>
+          <CardDescription>Track active positions, risk exposure, and unrealized returns.</CardDescription>
         </CardHeader>
         <CardContent>
           <DataTable

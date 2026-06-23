@@ -21,8 +21,8 @@ const DashboardBellCurve = ({ distribution }: DashboardBellCurveProps) => {
     <section>
       <Card className='w-full'>
         <CardHeader>
-          <CardTitle>Bell Curve</CardTitle>
-          <CardDescription>Your exercise minutes are ahead of where you normally are.</CardDescription>
+          <CardTitle>Return Distribution</CardTitle>
+          <CardDescription>Frequency distribution of completed trades by return percentage.</CardDescription>
         </CardHeader>
         <CardContent>
           <ChartContainer config={chartConfig} className='w-full max-h-[250px]'>

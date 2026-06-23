@@ -23,7 +23,7 @@ const AnalyticsWinRate = ({ winRates }: AnalyticsWinRateProps) => {
     <Card className='w-full'>
       <CardHeader>
         <CardTitle>Win Rate</CardTitle>
-        <CardDescription>Your exercise minutes are ahead of where you normally are.</CardDescription>
+        <CardDescription>Monthly win rate over the last six months.</CardDescription>
       </CardHeader>
       <CardContent className='pl-0'>
         <ChartContainer config={chartConfig} className='w-full max-h-[250px]'>
