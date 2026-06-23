@@ -59,19 +59,49 @@ export const tradeColumnsMap = {
     id: 'return',
     accessorKey: 'return',
     header: 'Return',
-    cell: ({ row }) => formatAmountInInr(row.getValue('return')),
+    cell: ({ row }) => {
+      if (row.getValue('return') === null || row.getValue('return') === '') {
+        return <></>;
+      }
+      const formattedAmt = formatAmountInInr(row.getValue('return'));
+      let className = 'text-[var(--green)]';
+      if (formattedAmt.startsWith('-')) {
+        className = 'text-[var(--red)]';
+      }
+      return <span className={className}>{formattedAmt}</span>;
+    },
   },
   returnPercent: {
     id: 'returnPercent',
     accessorKey: 'returnPercent',
     header: 'Return %',
-    cell: ({ row }) => <span>{row.getValue('returnPercent')}%</span>,
+    cell: ({ row }) => {
+      const value = row.getValue('returnPercent') as number;
+      if (value == null) {
+        return <></>;
+      }
+      let className = 'text-[var(--green)]';
+      if (value < 0) {
+        className = 'text-[var(--red)]';
+      }
+      return <span className={className}>{value}%</span>;
+    },
   },
   rMultiple: {
     id: 'rMultiple',
     accessorKey: 'rMultiple',
     header: 'R',
-    cell: ({ row }) => <span>{row.getValue('rMultiple')}R</span>,
+    cell: ({ row }) => {
+      const value = row.getValue('rMultiple') as number;
+      if (value == null) {
+        return <></>;
+      }
+      let className = 'text-[var(--green)]';
+      if (value < 0) {
+        className = 'text-[var(--red)]';
+      }
+      return <span className={className}>{value}R</span>;
+    },
   },
   edit: {
     id: 'edit',
@@ -158,6 +188,7 @@ export const tradeColumnsMap = {
 // ];
 
 const formatAmountInInr = (amount: string) => {
+  if (amount != '0' && !amount) return '';
   const entry = parseFloat(amount);
   const formatted = new Intl.NumberFormat('en-US', {
     style: 'currency',
