@@ -6,12 +6,14 @@ interface DashboardKPIsProps {
 }
 
 const DashboardKPIs = ({ stat }: DashboardKPIsProps) => {
+  const trend = stat.edge >= 2 ? 'Upward' : 'Downward';
+  const edgeClass = stat.edge >= 2 ? 'text-[var(--green)]' : 'text-[var(--red)]';
   return (
     <section className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-4 p-1'>
       <Card className='w-full'>
         <CardHeader>
           <CardDescription>Trend</CardDescription>
-          <CardTitle className='text-2xl xl:text-3xl text-[var(--green)]'>Upward</CardTitle>
+          <CardTitle className={`text-2xl xl:text-3xl ${edgeClass}`}>{trend}</CardTitle>
           {/* <CardTitle className='flex gap-5 items-center'>
             <span className='text-2xl xl:text-3xl'>Upward</span>
             <TrendingUp size={24} />
@@ -43,7 +45,7 @@ const DashboardKPIs = ({ stat }: DashboardKPIsProps) => {
       <Card className='w-full'>
         <CardHeader>
           <CardDescription>Edge</CardDescription>
-          <CardTitle className='text-2xl xl:text-3xl text-[var(--green)]'>{stat.edge}</CardTitle>
+          <CardTitle className={`text-2xl xl:text-3xl ${edgeClass}`}>{stat.edge}</CardTitle>
           {/* <CardDescription>20.1% from last month</CardDescription> */}
         </CardHeader>
       </Card>
