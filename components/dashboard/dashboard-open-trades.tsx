@@ -20,9 +20,16 @@ const OpenTradesTable = ({ data }: OpenTradesTableProps) => {
   return (
     <section>
       <Card className='w-full h-full'>
-        <CardHeader>
-          <CardTitle>Open Positions</CardTitle>
-          <CardDescription>Track active positions, risk exposure, and unrealized returns.</CardDescription>
+        <CardHeader className='flex items-end justify-between'>
+          <div className='flex flex-col gap-1'>
+            <CardTitle>Open Positions</CardTitle>
+            <CardDescription>Track active positions, risk exposure, and unrealized returns.</CardDescription>
+          </div>
+          <div className='flex flex-col gap-1'>
+            <CardTitle>
+              Risk : <span className='text-[var(--red)]'>₹0</span>
+            </CardTitle>
+          </div>
         </CardHeader>
         <CardContent>
           <DataTable
