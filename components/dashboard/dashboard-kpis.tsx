@@ -28,8 +28,8 @@ const DashboardKPIs = ({ stat }: DashboardKPIsProps) => {
       </Card>
       <Card className='w-full'>
         <CardHeader>
-          <CardDescription>Win Rate</CardDescription>
-          <CardTitle className='text-2xl xl:text-3xl text-[var(--green)]'>{stat.winRate}</CardTitle>
+          <CardDescription>Win %</CardDescription>
+          <CardTitle className='text-2xl xl:text-3xl text-[var(--green)]'>{stat.winRate}%</CardTitle>
           {/* <CardDescription>20.1% from last month</CardDescription> */}
         </CardHeader>
       </Card>
