@@ -1,5 +1,6 @@
 // 'use client';
 
+import { formatStringAmountInInr } from '@/lib/amounts';
 import { TradeDTO } from '@/types/dto';
 import { ColumnDef } from '@tanstack/react-table';
 import { Pencil } from 'lucide-react';
@@ -26,7 +27,7 @@ export const tradeColumnsMap = {
     id: 'entry',
     accessorKey: 'entry',
     header: 'Entry',
-    cell: ({ row }) => formatAmountInInr(row.getValue('entry')),
+    cell: ({ row }) => formatStringAmountInInr(row.getValue('entry')),
   },
   quantity: {
     id: 'quantity',
@@ -37,13 +38,13 @@ export const tradeColumnsMap = {
     id: 'risk',
     accessorKey: 'risk',
     header: 'Risk',
-    cell: ({ row }) => formatAmountInInr(row.getValue('risk')),
+    cell: ({ row }) => formatStringAmountInInr(row.getValue('risk')),
   },
   exit: {
     id: 'exit',
     accessorKey: 'exit',
     header: 'Exit',
-    cell: ({ row }) => formatAmountInInr(row.getValue('exit')),
+    cell: ({ row }) => formatStringAmountInInr(row.getValue('exit')),
   },
   entryDate: {
     id: 'entryDate',
@@ -64,7 +65,7 @@ export const tradeColumnsMap = {
       if (value == null) {
         return <></>;
       }
-      const formattedAmt = formatAmountInInr(row.getValue('return'));
+      const formattedAmt = formatStringAmountInInr(row.getValue('return'));
       let className = '';
       if (value < 0) {
         className = 'text-[var(--red)]';
@@ -123,13 +124,3 @@ export const tradeColumnsMap = {
     },
   },
 } satisfies Record<string, ColumnDef<TradeDTO>>;
-
-const formatAmountInInr = (amount: string) => {
-  if (amount != '0' && !amount) return '';
-  const entry = parseFloat(amount);
-  const formatted = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'INR',
-  }).format(entry);
-  return formatted;
-};
