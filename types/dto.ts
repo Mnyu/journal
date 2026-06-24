@@ -49,8 +49,25 @@ export type TradeDTO = {
   return: number | null;
   returnPercent: number | null;
   rMultiple: number | null;
+  reviews: TradeReviewsDTO | null;
   createdAt: string;
   updatedAt: string;
+};
+
+export type TradeReviewsDTO = {
+  tradeId: string;
+  entry: TradeReviewDTO | null;
+  exit: TradeReviewDTO | null;
+};
+
+export type TradeReviewDTO = {
+  id?: string;
+  type: string;
+  score: number;
+  comments: string;
+  aiInsights?: string;
+  createdAt?: string;
+  updatedAt?: string;
 };
 
 export type YearDistributionDTO = {

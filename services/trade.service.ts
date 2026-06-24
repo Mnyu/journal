@@ -1,11 +1,13 @@
 import * as repo from '@/repositories/trade.repository';
+import * as reviewRepo from '@/repositories/trade-review.repository';
 import { buildPagination } from '@/lib/pagination';
-import { PageResponse, TradeDTO, TrajectoryDTO } from '@/types/dto';
-import { Trade } from '@/db/schema';
+import { PageResponse, TradeDTO, TradeReviewDTO, TradeReviewsDTO, TrajectoryDTO } from '@/types/dto';
+import { Trade, TradeReview } from '@/db/schema';
 import { TradeListFilters } from '@/schemas/trade.schema';
 import { Trajectory } from '@/types/domain';
+import { TradeReviews } from '@/schemas/trade-review.schema';
 
-export const listTrades = async (filters: TradeListFilters): Promise<PageResponse<TradeDTO>> => {
+export const getTrades = async (filters: TradeListFilters): Promise<PageResponse<TradeDTO>> => {
   const queryResult = await repo.findTrades(filters);
   const pagination = buildPagination(filters.page, filters.pageSize, queryResult.total);
   return {
@@ -14,7 +16,7 @@ export const listTrades = async (filters: TradeListFilters): Promise<PageRespons
   };
 };
 
-export const listOpenTrades = async (filters: TradeListFilters): Promise<PageResponse<TradeDTO>> => {
+export const getOpenTrades = async (filters: TradeListFilters): Promise<PageResponse<TradeDTO>> => {
   const queryResult = await repo.findOpenTrades(filters);
   const pagination = buildPagination(filters.page, filters.pageSize, queryResult.total);
   return {
@@ -23,9 +25,46 @@ export const listOpenTrades = async (filters: TradeListFilters): Promise<PageRes
   };
 };
 
+export const getTradeById = async (id: string): Promise<TradeDTO> => {
+  const trade = await repo.findTrade(id);
+  if (!trade) {
+    throw new Error('trade not found');
+  }
+  return buildDTOFromTradeWithReviews(trade);
+};
+
 export const getTrajectory = async (): Promise<TrajectoryDTO[]> => {
   const trajectories = await repo.findTrajectory();
   return trajectories.map((t) => buildDTOFromTrajectory(t));
+};
+
+export const saveReviews = async (reviews: TradeReviews): Promise<TradeReviewsDTO> => {
+  const tradeId = reviews.tradeId;
+  let entryReviewDTO = null;
+  let exitReviewDTO = null;
+  if (reviews.entry) {
+    const entryReview = await reviewRepo.upsertTradeReview({
+      type: 'ENTRY',
+      tradeId: tradeId,
+      score: reviews.entry.score,
+      comments: reviews.entry.comments,
+    });
+    entryReviewDTO = buildDTOFromReview(entryReview);
+  }
+  if (reviews.exit) {
+    const exitReview = await reviewRepo.upsertTradeReview({
+      type: 'EXIT',
+      tradeId: tradeId,
+      score: reviews.exit.score,
+      comments: reviews.exit.comments,
+    });
+    exitReviewDTO = buildDTOFromReview(exitReview);
+  }
+  return {
+    tradeId: tradeId,
+    entry: entryReviewDTO,
+    exit: exitReviewDTO,
+  };
 };
 
 const buildDTOsFromTrades = (trades: Trade[]): TradeDTO[] => {
@@ -48,9 +87,32 @@ const buildDTOFromTrade = (trade: Trade): TradeDTO => {
     return: trade.return ?? null,
     returnPercent: trade.returnPercent ?? null,
     rMultiple: trade.rMultiple ?? null,
+    reviews: null,
     createdAt: trade.createdAt ? trade.createdAt.toISOString() : '',
     updatedAt: trade.updatedAt ? trade.updatedAt.toISOString() : '',
   };
+};
+
+const buildDTOFromTradeWithReviews = (trade: repo.TradeWithReviews): TradeDTO => {
+  const tradeDTO = buildDTOFromTrade(trade);
+  if (trade.reviews) {
+    let entryReviewDTO = null;
+    let exitReviewDTO = null;
+    trade.reviews.map((review) => {
+      const reviewDTO = buildDTOFromReview(review);
+      if (review.type === 'ENTRY') {
+        entryReviewDTO = reviewDTO;
+      } else if (review.type === 'EXIT') {
+        exitReviewDTO = reviewDTO;
+      }
+    });
+    tradeDTO.reviews = {
+      tradeId: trade.id,
+      entry: entryReviewDTO,
+      exit: exitReviewDTO,
+    };
+  }
+  return tradeDTO;
 };
 
 const buildDTOFromTrajectory = (trajectory: Trajectory): TrajectoryDTO => {
@@ -64,5 +126,17 @@ const buildDTOFromTrajectory = (trajectory: Trajectory): TrajectoryDTO => {
     winRate: trajectory.winRate,
     riskReward: trajectory.riskReward,
     edge: trajectory.edge,
+  };
+};
+
+const buildDTOFromReview = (review: TradeReview): TradeReviewDTO => {
+  return {
+    id: review.id,
+    type: review.type,
+    score: review.score,
+    comments: review.comments ? review.comments : '',
+    aiInsights: review.aiInsights ? review.aiInsights : '',
+    createdAt: review.createdAt ? review.createdAt.toISOString() : '',
+    updatedAt: review.updatedAt ? review.updatedAt.toISOString() : '',
   };
 };

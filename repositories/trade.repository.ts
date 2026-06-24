@@ -1,5 +1,5 @@
 import { db } from '@/db/client';
-import { trades } from '@/db/schema';
+import { tradeReviews, trades } from '@/db/schema';
 import { TradeListFilters } from '@/schemas/trade.schema';
 import { and, asc, desc, eq, isNull, lt, sql } from 'drizzle-orm';
 import { executeNativeSql } from './utils.repository';
@@ -62,6 +62,18 @@ export const findOpenTrades = async (filters: TradeListFilters) => {
   };
 };
 
+export const findTrade = async (id: string) => {
+  const trade = await db.query.trades.findFirst({
+    where: eq(trades.id, id),
+    with: {
+      reviews: {
+        orderBy: [desc(tradeReviews.createdAt)],
+      },
+    },
+  });
+  return trade ?? null;
+};
+
 export const findTrajectory = async (): Promise<Trajectory[]> => {
   const dbRows = await executeNativeSql(trajectorySql);
   return dbRows.map((dbRow) => ({
@@ -76,3 +88,5 @@ export const findTrajectory = async (): Promise<Trajectory[]> => {
     edge: Number(dbRow.edge),
   }));
 };
+
+export type TradeWithReviews = NonNullable<Awaited<ReturnType<typeof findTrade>>>;
