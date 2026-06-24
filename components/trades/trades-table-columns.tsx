@@ -60,13 +60,16 @@ export const tradeColumnsMap = {
     accessorKey: 'return',
     header: 'Return',
     cell: ({ row }) => {
-      if (row.getValue('return') === null || row.getValue('return') === '') {
+      const value = row.getValue('return') as number;
+      if (value == null) {
         return <></>;
       }
       const formattedAmt = formatAmountInInr(row.getValue('return'));
-      let className = 'text-[var(--green)]';
-      if (formattedAmt.startsWith('-')) {
+      let className = '';
+      if (value < 0) {
         className = 'text-[var(--red)]';
+      } else if (value > 0) {
+        className = 'text-[var(--green)]';
       }
       return <span className={className}>{formattedAmt}</span>;
     },
@@ -80,9 +83,11 @@ export const tradeColumnsMap = {
       if (value == null) {
         return <></>;
       }
-      let className = 'text-[var(--green)]';
+      let className = '';
       if (value < 0) {
         className = 'text-[var(--red)]';
+      } else if (value > 0) {
+        className = 'text-[var(--green)]';
       }
       return <span className={className}>{value}%</span>;
     },
@@ -96,9 +101,11 @@ export const tradeColumnsMap = {
       if (value == null) {
         return <></>;
       }
-      let className = 'text-[var(--green)]';
+      let className = '';
       if (value < 0) {
         className = 'text-[var(--red)]';
+      } else if (value > 0) {
+        className = 'text-[var(--green)]';
       }
       return <span className={className}>{value}R</span>;
     },
@@ -116,76 +123,6 @@ export const tradeColumnsMap = {
     },
   },
 } satisfies Record<string, ColumnDef<TradeDTO>>;
-
-// export const columns: ColumnDef<TradeDTO>[] = [
-//   {
-//     accessorKey: 'symbol',
-//     header: 'Symbol',
-//     // header: ({ column }) => (
-//     //   <Button variant='ghost' onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')} className='pl-0'>
-//     //     Symbol
-//     //     <ChevronsUpDown className='ml-2 h-4 w-4' />
-//     //   </Button>
-//     // ),
-//   },
-//   {
-//     accessorKey: 'strategy',
-//     header: 'Strategy',
-//   },
-//   {
-//     accessorKey: 'entry',
-//     header: 'Entry',
-//     cell: ({ row }) => formatAmountInInr(row.getValue('entry')),
-//   },
-//   {
-//     accessorKey: 'quantity',
-//     header: 'Quantity',
-//   },
-//   {
-//     accessorKey: 'risk',
-//     header: 'Risk',
-//     cell: ({ row }) => formatAmountInInr(row.getValue('risk')),
-//   },
-//   {
-//     accessorKey: 'exit',
-//     header: 'Exit',
-//     cell: ({ row }) => formatAmountInInr(row.getValue('exit')),
-//   },
-//   {
-//     accessorKey: 'entryDate',
-//     header: 'Entry Date',
-//   },
-//   {
-//     accessorKey: 'exitDate',
-//     header: 'Exit Date',
-//   },
-//   {
-//     accessorKey: 'return',
-//     header: 'Return',
-//     cell: ({ row }) => formatAmountInInr(row.getValue('return')),
-//   },
-//   {
-//     accessorKey: 'returnPercent',
-//     header: 'Return %',
-//     cell: ({ row }) => <span>{row.getValue('returnPercent')}%</span>,
-//   },
-//   {
-//     accessorKey: 'rMultiple',
-//     header: 'R',
-//     cell: ({ row }) => <span>{row.getValue('rMultiple')}R</span>,
-//   },
-//   {
-//     id: 'actions',
-//     cell: ({ row }) => {
-//       const trade = row.original;
-//       return (
-//         <Link href={`/trades/${trade.id}`}>
-//           <Pencil size={16} />
-//         </Link>
-//       );
-//     },
-//   } satisfies Record<string, ColumnDef<TradeDTO>>,
-// ];
 
 const formatAmountInInr = (amount: string) => {
   if (amount != '0' && !amount) return '';

@@ -24,7 +24,7 @@ const TradesTable = ({ data }: TradesTableProps) => {
     tradeColumnsMap.review,
   ];
   return (
-    <section className='w-full mx-auto'>
+    <section className='w-full h-full mx-auto'>
       <DataTable
         columns={columns}
         data={data.data}
