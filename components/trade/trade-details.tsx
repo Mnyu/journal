@@ -13,7 +13,7 @@ const TradeDetails = ({ trade }: TradeDetailsProps) => {
         <CardHeader>
           <CardTitle>Details</CardTitle>
         </CardHeader>
-        <CardContent className='grid grid-cols-4 gap-3'>
+        <CardContent className='grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3'>
           <DescriptionItem label='Symbol' value={trade.symbol} />
           <DescriptionItem label='Entry' value={trade.entry} />
           <DescriptionItem label='Quantity' value={trade.quantity} />
