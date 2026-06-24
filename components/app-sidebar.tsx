@@ -26,7 +26,9 @@ const AppSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) => {
           <SidebarMenuItem>
             <SidebarMenuButton>
               <NotebookIcon />
-              <span className='text-base font-semibold lg:block'>JOURNAL</span>
+              <Link href='/'>
+                <span className='text-base font-semibold lg:block'>JOURNAL</span>
+              </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
