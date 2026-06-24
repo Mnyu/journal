@@ -1,6 +1,3 @@
-import { SaveIcon, X } from 'lucide-react';
-import { Button } from '../ui/button';
-
 const TradeHeader = () => {
   return (
     <section className='pt-3 flex items-center justify-between px-2'>
