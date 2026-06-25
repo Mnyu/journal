@@ -16,8 +16,13 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { appSidebar } from '@/config/app-sidebar';
+import { User } from 'better-auth';
 
-const AppSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) => {
+type AppSidebarProps = React.ComponentProps<typeof Sidebar> & {
+  user: User;
+};
+
+const AppSidebar = ({ user, ...props }: AppSidebarProps) => {
   const pathname = usePathname();
   return (
     <Sidebar collapsible='icon' {...props}>
@@ -89,12 +94,12 @@ const AppSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) => {
               className='data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground'
             >
               <Avatar className='h-8 w-8 rounded-lg grayscale'>
-                <AvatarImage src={appSidebar.user.avatar} alt={appSidebar.user.name} />
-                <AvatarFallback className='rounded-lg'>{appSidebar.user.name.charAt(0).toUpperCase()}</AvatarFallback>
+                <AvatarImage src={user.image ? user.image : ''} alt={user.name} />
+                <AvatarFallback className='rounded-lg'>{user.name.charAt(0).toUpperCase()}</AvatarFallback>
               </Avatar>
               <div className='grid flex-1 text-left text-sm leading-tight'>
-                <span className='truncate font-medium'>{appSidebar.user.name}</span>
-                <span className='truncate text-xs text-muted-foreground'>{appSidebar.user.email}</span>
+                <span className='truncate font-medium'>{user.name}</span>
+                <span className='truncate text-xs text-muted-foreground'>{user.email}</span>
               </div>
               <MoreVerticalIcon className='ml-auto size-4' />
             </SidebarMenuButton>

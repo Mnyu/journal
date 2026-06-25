@@ -1,11 +1,6 @@
 import { BarChartIcon, LayoutDashboard, SettingsIcon, ChartCandlestick } from 'lucide-react';
 
 export const appSidebar = {
-  user: {
-    name: 'abhimanyu',
-    email: 'mail2abhimanyu.gupta@gmail.com',
-    avatar: '/avatars/abhimanyu.jpg',
-  },
   mainMenuItems: [
     {
       title: 'Overview',
