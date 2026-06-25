@@ -48,7 +48,8 @@ CREATE TABLE "verification" (
 );
 --> statement-breakpoint
 CREATE TABLE "monthly_stats" (
-	"year_month" varchar(7) PRIMARY KEY NOT NULL,
+	"user_id" text NOT NULL,
+	"year_month" varchar(7) NOT NULL,
 	"month" varchar(20) NOT NULL,
 	"trades" integer NOT NULL,
 	"wins" integer NOT NULL,
@@ -59,6 +60,7 @@ CREATE TABLE "monthly_stats" (
 	"risk_reward" numeric(10, 2) NOT NULL,
 	"edge" numeric(10, 2) NOT NULL,
 	"distribution" jsonb NOT NULL,
+	CONSTRAINT "monthly_stats_user_id_year_month_pk" PRIMARY KEY("user_id","year_month"),
 	CONSTRAINT "monthly_stats_month_unique" UNIQUE("month")
 );
 --> statement-breakpoint
@@ -111,22 +113,26 @@ CREATE TABLE "trades" (
 );
 --> statement-breakpoint
 CREATE TABLE "yearly_stats" (
-	"year" integer PRIMARY KEY NOT NULL,
+	"user_id" text NOT NULL,
+	"year" integer NOT NULL,
 	"trades" integer NOT NULL,
 	"wins" integer NOT NULL,
 	"avg_gain" numeric NOT NULL,
 	"avg_loss" numeric NOT NULL,
 	"win_rate" numeric NOT NULL,
 	"risk_reward" numeric NOT NULL,
-	"distribution" jsonb NOT NULL
+	"distribution" jsonb NOT NULL,
+	CONSTRAINT "yearly_stats_user_id_year_pk" PRIMARY KEY("user_id","year")
 );
 --> statement-breakpoint
 ALTER TABLE "account" ADD CONSTRAINT "account_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "session" ADD CONSTRAINT "session_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "monthly_stats" ADD CONSTRAINT "monthly_stats_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "trade_reviews" ADD CONSTRAINT "trade_reviews_trade_id_trades_id_fk" FOREIGN KEY ("trade_id") REFERENCES "public"."trades"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "trade_tags" ADD CONSTRAINT "trade_tags_trade_id_trades_id_fk" FOREIGN KEY ("trade_id") REFERENCES "public"."trades"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "trade_tags" ADD CONSTRAINT "trade_tags_tag_id_tags_id_fk" FOREIGN KEY ("tag_id") REFERENCES "public"."tags"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "trades" ADD CONSTRAINT "trades_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "yearly_stats" ADD CONSTRAINT "yearly_stats_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 CREATE INDEX "account_userId_idx" ON "account" USING btree ("user_id");--> statement-breakpoint
 CREATE INDEX "session_userId_idx" ON "session" USING btree ("user_id");--> statement-breakpoint
 CREATE INDEX "verification_identifier_idx" ON "verification" USING btree ("identifier");--> statement-breakpoint

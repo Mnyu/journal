@@ -1,10 +1,16 @@
 import { DistributionPoint } from '@/types/domain';
-import { integer, jsonb, numeric, pgTable } from 'drizzle-orm/pg-core';
+import { integer, jsonb, numeric, pgTable, primaryKey, text } from 'drizzle-orm/pg-core';
+import { user } from './auth-schema';
 
 export const yearlyStats = pgTable(
   'yearly_stats',
   {
-    year: integer('year').primaryKey(),
+    userId: text('user_id')
+      .references(() => user.id, {
+        onDelete: 'cascade',
+      })
+      .notNull(),
+    year: integer('year').notNull(),
     trades: integer('trades').notNull(),
     wins: integer('wins').notNull(),
     losses: integer('wins').notNull(),
@@ -15,7 +21,7 @@ export const yearlyStats = pgTable(
     edge: numeric('risk_reward').notNull(),
     distribution: jsonb('distribution').$type<DistributionPoint[]>().notNull(),
   },
-  (table) => [],
+  (table) => [primaryKey({ columns: [table.userId, table.year] })],
 );
 
 export type YearlyStat = typeof yearlyStats.$inferSelect;

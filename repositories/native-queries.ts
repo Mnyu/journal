@@ -1,4 +1,6 @@
-export const monthlyStatForCurrentMonthSql = `
+import { sql } from 'drizzle-orm';
+
+export const monthlyStatForCurrentMonthSql = (userId: string) => sql`
   with stats as (
     select
       to_char(date_trunc('month', exit_date),'YYYY-MM') as year_month,
@@ -10,7 +12,8 @@ export const monthlyStatForCurrentMonthSql = `
       round(avg(return) filter (where return < 0), 2) as avg_loss
     from trades
     where
-      exit_date is not null
+      user_id = ${userId}
+      and exit_date is not null
       and date_trunc('month', exit_date) >= date_trunc('month', current_date - interval '1 month')
     group by
       date_trunc('month', exit_date)
@@ -33,19 +36,22 @@ export const monthlyStatForCurrentMonthSql = `
     from stats
 `;
 
-export const monthlyDistributionForCurrentMonthSql = `
+export const monthlyDistributionForCurrentMonthSql = (userId: string) => sql`
   with distribution as(
-    select 
+    select
+      user_id,
       to_char(date_trunc('month', exit_date),'YYYY-MM') as year_month,
       round(return_percent, 0) as return_percent,
       count(*) as number_of_trades
     from trades
-    where 
-    exit_date is not null
+    where
+    user_id = ${userId}
+    and exit_date is not null
     and date_trunc('month', exit_date) >= date_trunc('month', current_date - interval '1 month')
-    group by date_trunc('month', exit_date), round(return_percent, 0)
+    group by user_id, date_trunc('month', exit_date), round(return_percent, 0)
   )
   select
+    user_id,
     year_month,
     json_agg(
       json_build_object(
@@ -55,10 +61,10 @@ export const monthlyDistributionForCurrentMonthSql = `
       order by return_percent
     ) as distribution
   from distribution
-  group by year_month
+  group by user_id, year_month
 `;
 
-export const last12MonthsEdgeAndWinRateSql = `
+export const last12MonthsEdgeAndWinRateSql = (userId: string) => sql`
   with months as (
     select generate_series(
       date_trunc('month', current_date) - interval '11 months',
@@ -75,7 +81,8 @@ export const last12MonthsEdgeAndWinRateSql = `
       round(avg(return) filter (where return < 0),2) as avg_loss
     from trades
     where 
-    exit_date is not null
+    user_id = ${userId}
+    and exit_date is not null
     and exit_date >= date_trunc('month', current_date) - interval '11 months'
     group by date_trunc('month', exit_date)
   )
@@ -88,20 +95,21 @@ export const last12MonthsEdgeAndWinRateSql = `
     order by m.month_start desc
 `;
 
-export const last3YearsDistributionSql = `
+export const last3YearsDistributionSql = (userId: string) => sql`
   select 
     round(return_percent, 0) as return_percent,
     extract(year from exit_date)::int AS year,
     count(*) as number_of_trades
   from trades
   where 
-  exit_date is not null
+  user_id = ${userId}
+  and exit_date is not null
   and exit_date >= date_trunc('year', current_date) - interval '3 years'
   group by round(return_percent, 0), extract(year FROM exit_date)
   order by round(return_percent, 0)
 `;
 
-export const trajectorySql = `
+export const trajectorySql = (userId: string) => sql`
   with trajectory as (
       select
           'Last 5' as period,
@@ -113,7 +121,9 @@ export const trajectorySql = `
       from (
           select return
           from trades
-          where exit_date is not null
+          where
+          user_id = ${userId}
+          and exit_date is not null
           order by exit_date desc
           limit 5
       ) t
@@ -130,7 +140,9 @@ export const trajectorySql = `
       from (
           select return
           from trades
-          where exit_date is not null
+          where 
+          user_id = ${userId}
+          and exit_date is not null
           order by exit_date desc
           limit 10
       ) t
@@ -145,7 +157,9 @@ export const trajectorySql = `
           coalesce(round(avg(return) filter (where return >= 0), 2), 0),
           coalesce(round(avg(return) filter (where return < 0), 2), 0)
       from trades
-      where exit_date >= date_trunc('month', current_date - interval '1 month')
+      where 
+        user_id = ${userId}
+        and exit_date >= date_trunc('month', current_date - interval '1 month')
         and exit_date < date_trunc('month', current_date)
 
       union all
@@ -158,7 +172,9 @@ export const trajectorySql = `
           coalesce(round(avg(return) filter (where return >= 0), 2), 0),
           coalesce(round(avg(return) filter (where return < 0), 2), 0)
       from trades
-      where exit_date >= date_trunc('year', current_date - interval '1 year')
+      where 
+        user_id = ${userId}
+        and exit_date >= date_trunc('year', current_date - interval '1 year')
         and exit_date < date_trunc('year', current_date)
   )
   select

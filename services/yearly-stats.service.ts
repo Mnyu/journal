@@ -2,8 +2,8 @@ import * as yearlyStatsRepo from '@/repositories/yearly-stats.repository';
 import { YearDistribution } from '@/types/domain';
 import { AnalyticsTO, YearDistributionDTO } from '@/types/dto';
 
-export const getCurrentAnalytics = async (): Promise<AnalyticsTO> => {
-  const monthEdgeWinRates = await yearlyStatsRepo.getLast12MonthsEdgeAndWinRate();
+export const getCurrentAnalytics = async (userId: string): Promise<AnalyticsTO> => {
+  const monthEdgeWinRates = await yearlyStatsRepo.getLast12MonthsEdgeAndWinRate(userId);
 
   const currentEdge = monthEdgeWinRates.length > 0 ? monthEdgeWinRates[0].edge : 0;
   let sumOfMonthlyEdges = 0;
@@ -38,7 +38,7 @@ export const getCurrentAnalytics = async (): Promise<AnalyticsTO> => {
   const avgEdge =
     monthEdgeWinRates.length > 0 ? Math.round((sumOfMonthlyEdges / monthEdgeWinRates.length) * 100) / 100 : 0;
 
-  const last3YearsDistributions = await yearlyStatsRepo.getLast3YearsDistribution();
+  const last3YearsDistributions = await yearlyStatsRepo.getLast3YearsDistribution(userId);
 
   return {
     currentEdge: currentEdge,

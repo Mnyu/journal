@@ -1,14 +1,14 @@
-import * as repo from '@/repositories/trade.repository';
-import * as reviewRepo from '@/repositories/trade-review.repository';
-import { buildPagination } from '@/lib/pagination';
-import { PageResponse, TradeDTO, TradeReviewDTO, TradeReviewsDTO, TrajectoryDTO } from '@/types/dto';
 import { Trade, TradeReview } from '@/db/schema';
+import { buildPagination } from '@/lib/pagination';
+import * as reviewRepo from '@/repositories/trade-review.repository';
+import * as repo from '@/repositories/trade.repository';
+import { TradeReviews } from '@/schemas/trade-review.schema';
 import { TradeListFilters } from '@/schemas/trade.schema';
 import { Trajectory } from '@/types/domain';
-import { TradeReviews } from '@/schemas/trade-review.schema';
+import { PageResponse, TradeDTO, TradeReviewDTO, TradeReviewsDTO, TrajectoryDTO } from '@/types/dto';
 
-export const getTrades = async (filters: TradeListFilters): Promise<PageResponse<TradeDTO>> => {
-  const queryResult = await repo.findTrades(filters);
+export const getTrades = async (userId: string, filters: TradeListFilters): Promise<PageResponse<TradeDTO>> => {
+  const queryResult = await repo.findTrades(userId, filters);
   const pagination = buildPagination(filters.page, filters.pageSize, queryResult.total);
   return {
     data: buildDTOsFromTrades(queryResult.rows),
@@ -16,8 +16,8 @@ export const getTrades = async (filters: TradeListFilters): Promise<PageResponse
   };
 };
 
-export const getOpenTrades = async (filters: TradeListFilters): Promise<PageResponse<TradeDTO>> => {
-  const queryResult = await repo.findOpenTrades(filters);
+export const getOpenTrades = async (userId: string, filters: TradeListFilters): Promise<PageResponse<TradeDTO>> => {
+  const queryResult = await repo.findOpenTrades(userId, filters);
   const pagination = buildPagination(filters.page, filters.pageSize, queryResult.total);
   return {
     data: buildDTOsFromTrades(queryResult.rows),
@@ -25,21 +25,23 @@ export const getOpenTrades = async (filters: TradeListFilters): Promise<PageResp
   };
 };
 
-export const getTradeById = async (id: string): Promise<TradeDTO> => {
-  const trade = await repo.findTrade(id);
+export const getTradeById = async (userId: string, id: string): Promise<TradeDTO> => {
+  const trade = await repo.findTrade(userId, id);
   if (!trade) {
     throw new Error('trade not found');
   }
   return buildDTOFromTradeWithReviews(trade);
 };
 
-export const getTrajectory = async (): Promise<TrajectoryDTO[]> => {
-  const trajectories = await repo.findTrajectory();
+export const getTrajectory = async (userId: string): Promise<TrajectoryDTO[]> => {
+  const trajectories = await repo.findTrajectory(userId);
   return trajectories.map((t) => buildDTOFromTrajectory(t));
 };
 
-export const saveReviews = async (reviews: TradeReviews): Promise<TradeReviewsDTO> => {
+export const saveReviews = async (userId: string, reviews: TradeReviews): Promise<TradeReviewsDTO> => {
   const tradeId = reviews.tradeId;
+  getTradeById(userId, tradeId);
+
   let entryReviewDTO = null;
   let exitReviewDTO = null;
   if (reviews.entry) {

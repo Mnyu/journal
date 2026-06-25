@@ -1,10 +1,13 @@
 'use server';
+import { requireSession } from '@/lib/auth-session';
 import * as statsService from '@/services/monthly-stats.service';
 
 export const getMonthlyStatForCurrentMonth = async () => {
-  return await statsService.getMonthlyStatForCurrentMonth();
+  const { user } = await requireSession();
+  return await statsService.getMonthlyStatForCurrentMonth(user.id);
 };
 
 export const getMonthlyStat = async (month: string) => {
-  return await statsService.getMonthlyStat(month);
+  const { user } = await requireSession();
+  return await statsService.getMonthlyStat(user.id, month);
 };

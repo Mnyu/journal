@@ -1,13 +1,13 @@
 import { db } from '@/db/client';
 import { tradeReviews, trades } from '@/db/schema';
 import { TradeListFilters } from '@/schemas/trade.schema';
-import { and, asc, desc, eq, isNull, lt, sql } from 'drizzle-orm';
-import { executeNativeSql } from './utils.repository';
-import { trajectorySql } from './native-queries';
 import { Trajectory } from '@/types/domain';
+import { and, asc, desc, eq, isNull, sql } from 'drizzle-orm';
+import { trajectorySql } from './native-queries';
+import { executeNativeSql } from './utils.repository';
 
-export const findTrades = async (filters: TradeListFilters) => {
-  const conditions = [];
+export const findTrades = async (userId: string, filters: TradeListFilters) => {
+  const conditions = [eq(trades.userId, userId)];
   if (filters.symbol) {
     conditions.push(eq(trades.symbol, filters.symbol));
   }
@@ -37,13 +37,15 @@ export const findTrades = async (filters: TradeListFilters) => {
   };
 };
 
-export const findOpenTrades = async (filters: TradeListFilters) => {
+export const findOpenTrades = async (userId: string, filters: TradeListFilters) => {
+  const conditions = [eq(trades.userId, userId), isNull(trades.exitDate)];
+  const whereClause = and(...conditions);
   const offset = (filters.page - 1) * filters.pageSize;
   const [rows, countResult] = await Promise.all([
     db
       .select()
       .from(trades)
-      .where(isNull(trades.exitDate))
+      .where(whereClause)
       .orderBy(desc(trades.createdAt), asc(trades.symbol), asc(trades.id))
       .limit(filters.pageSize)
       .offset(offset),
@@ -62,9 +64,11 @@ export const findOpenTrades = async (filters: TradeListFilters) => {
   };
 };
 
-export const findTrade = async (id: string) => {
+export const findTrade = async (userId: string, id: string) => {
+  const conditions = [eq(trades.userId, userId), eq(trades.id, id)];
+  const whereClause = and(...conditions);
   const trade = await db.query.trades.findFirst({
-    where: eq(trades.id, id),
+    where: whereClause,
     with: {
       reviews: {
         orderBy: [desc(tradeReviews.createdAt)],
@@ -74,8 +78,8 @@ export const findTrade = async (id: string) => {
   return trade ?? null;
 };
 
-export const findTrajectory = async (): Promise<Trajectory[]> => {
-  const dbRows = await executeNativeSql(trajectorySql);
+export const findTrajectory = async (userId: string): Promise<Trajectory[]> => {
+  const dbRows = await executeNativeSql(trajectorySql, userId);
   return dbRows.map((dbRow) => ({
     period: dbRow.period as string,
     noOfTrades: Number(dbRow.trades),

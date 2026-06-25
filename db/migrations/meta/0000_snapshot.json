@@ -1,5 +1,5 @@
 {
-  "id": "94874ce2-22c9-4ee0-938f-7e09d5b654cb",
+  "id": "2c0b8c3d-c295-46e3-9cd7-bd7ebf41f6e3",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -357,10 +357,16 @@
       "name": "monthly_stats",
       "schema": "",
       "columns": {
+        "user_id": {
+          "name": "user_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
         "year_month": {
           "name": "year_month",
           "type": "varchar(7)",
-          "primaryKey": true,
+          "primaryKey": false,
           "notNull": true
         },
         "month": {
@@ -425,8 +431,30 @@
         }
       },
       "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
+      "foreignKeys": {
+        "monthly_stats_user_id_user_id_fk": {
+          "name": "monthly_stats_user_id_user_id_fk",
+          "tableFrom": "monthly_stats",
+          "tableTo": "user",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "monthly_stats_user_id_year_month_pk": {
+          "name": "monthly_stats_user_id_year_month_pk",
+          "columns": [
+            "user_id",
+            "year_month"
+          ]
+        }
+      },
       "uniqueConstraints": {
         "monthly_stats_month_unique": {
           "name": "monthly_stats_month_unique",
@@ -893,10 +921,16 @@
       "name": "yearly_stats",
       "schema": "",
       "columns": {
+        "user_id": {
+          "name": "user_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
         "year": {
           "name": "year",
           "type": "integer",
-          "primaryKey": true,
+          "primaryKey": false,
           "notNull": true
         },
         "trades": {
@@ -943,8 +977,30 @@
         }
       },
       "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
+      "foreignKeys": {
+        "yearly_stats_user_id_user_id_fk": {
+          "name": "yearly_stats_user_id_user_id_fk",
+          "tableFrom": "yearly_stats",
+          "tableTo": "user",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "yearly_stats_user_id_year_pk": {
+          "name": "yearly_stats_user_id_year_pk",
+          "columns": [
+            "user_id",
+            "year"
+          ]
+        }
+      },
       "uniqueConstraints": {},
       "policies": {},
       "checkConstraints": {},

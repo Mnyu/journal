@@ -1,10 +1,16 @@
 import { DistributionPoint } from '@/types/domain';
-import { integer, jsonb, numeric, pgTable, varchar } from 'drizzle-orm/pg-core';
+import { integer, jsonb, numeric, pgTable, primaryKey, text, varchar } from 'drizzle-orm/pg-core';
+import { user } from './auth-schema';
 
 export const monthlyStatsTable = pgTable(
   'monthly_stats',
   {
-    yearMonth: varchar('year_month', { length: 7 }).primaryKey(),
+    userId: text('user_id')
+      .references(() => user.id, {
+        onDelete: 'cascade',
+      })
+      .notNull(),
+    yearMonth: varchar('year_month', { length: 7 }).notNull(),
     month: varchar('month', { length: 20 }).notNull().unique(),
     trades: integer('trades').notNull(),
     wins: integer('wins').notNull(),
@@ -36,7 +42,7 @@ export const monthlyStatsTable = pgTable(
     }).notNull(),
     distribution: jsonb('distribution').$type<DistributionPoint[]>().notNull(),
   },
-  (table) => [],
+  (table) => [primaryKey({ columns: [table.userId, table.yearMonth] })],
 );
 
 export type MonthlyStat = typeof monthlyStatsTable.$inferSelect;
