@@ -50,7 +50,7 @@ const SignIn = () => {
   return (
     <div className='w-full h-full grid grid-cols-1 lg:grid-cols-2'>
       <div className='relative h-full w-full hidden lg:block'>
-        <Image src='/images/hero_2.png' alt='login-image' fill priority className='object-cover' />
+        <Image src='/images/hero_2.png' alt='login-image' fill priority className='object-cover' sizes='100%' />
       </div>
       <div className='h-full flex items-center justify-center'>
         <Card className='w-full max-w-lg ring-0'>
