@@ -1,6 +1,6 @@
 'use client';
 
-import { MoreVerticalIcon, NotebookIcon } from 'lucide-react';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   Sidebar,
   SidebarContent,
@@ -11,12 +11,16 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from '@/components/ui/sidebar';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import { appSidebar } from '@/config/app-sidebar';
 import { User } from 'better-auth';
+import { MoreVerticalIcon, NotebookIcon } from 'lucide-react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import Logout from './logout';
+import SidebarCollapseTrigger from './sidebar-collapse-trigger';
+import ThemeToggle from './theme-toggle';
 
 type AppSidebarProps = React.ComponentProps<typeof Sidebar> & {
   user: User;
@@ -24,6 +28,7 @@ type AppSidebarProps = React.ComponentProps<typeof Sidebar> & {
 
 const AppSidebar = ({ user, ...props }: AppSidebarProps) => {
   const pathname = usePathname();
+  const { state, open, setOpen, isMobile, openMobile } = useSidebar();
   return (
     <Sidebar collapsible='icon' {...props}>
       <SidebarHeader>
@@ -73,15 +78,30 @@ const AppSidebar = ({ user, ...props }: AppSidebarProps) => {
           <SidebarGroupContent>
             <SidebarMenu>
               {appSidebar.secondaryMenuItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
+                <SidebarMenuItem key={item.title} className=''>
                   <SidebarMenuButton asChild>
-                    <a href={item.url}>
+                    <Link href={item.url}>
                       <item.icon />
                       <span>{item.title}</span>
-                    </a>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <ThemeToggle showText={open} />
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Logout showText={open} />
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <SidebarCollapseTrigger open={open} setOpen={setOpen} />
+                </SidebarMenuButton>
+              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
