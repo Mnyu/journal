@@ -35,9 +35,9 @@ const AppSidebar = ({ user, ...props }: AppSidebarProps) => {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton>
-              <NotebookIcon />
-              <Link href='/'>
-                <span className='text-base font-semibold lg:block'>JOURNAL</span>
+              <Link href='/' className='flex items-center gap-2'>
+                <NotebookIcon />
+                {open && <span className='text-base font-semibold lg:block'>JOURNAL</span>}
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
