@@ -1,4 +1,4 @@
-export * from './users';
+export * from './auth-schema';
 
 export * from './trades';
 export * from './trade-reviews';
@@ -8,5 +8,3 @@ export * from './trade-tags';
 
 export * from './monthly-stats';
 export * from './yearly-stats';
-
-export * from './auth-schema';

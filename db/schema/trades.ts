@@ -1,15 +1,15 @@
 import { relations } from 'drizzle-orm';
-import { date, index, integer, numeric, pgTable, timestamp, unique, uuid, varchar } from 'drizzle-orm/pg-core';
+import { date, index, integer, numeric, pgTable, text, timestamp, unique, uuid, varchar } from 'drizzle-orm/pg-core';
 import { tradeReviews } from './trade-reviews';
 import { tradeTags } from './trade-tags';
-import { users } from './users';
+import { user } from './auth-schema';
 
 export const trades = pgTable(
   'trades',
   {
     id: uuid('id').primaryKey().defaultRandom(),
-    userId: uuid('user_id')
-      .references(() => users.id, {
+    userId: text('user_id')
+      .references(() => user.id, {
         onDelete: 'cascade',
       })
       .notNull(),
@@ -53,16 +53,17 @@ export const trades = pgTable(
     updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
   },
   (table) => [
-    unique('trades_order_id_unique').on(table.orderId),
-    index('trades_entrydate_idx').on(table.entryDate),
-    index('trades_exitdate_idx').on(table.exitDate),
+    unique('trades_user_order_id_unique').on(table.userId, table.orderId),
+    index('trades_user_entrydate_idx').on(table.userId, table.entryDate),
+    index('trades_user_exitdate_idx').on(table.userId, table.exitDate),
+    index('trades_user_idx').on(table.userId),
   ],
 );
 
 export const tradesRelations = relations(trades, ({ one, many }) => ({
-  user: one(users, {
+  user: one(user, {
     fields: [trades.userId],
-    references: [users.id],
+    references: [user.id],
   }),
   reviews: many(tradeReviews),
   tradeTags: many(tradeTags),
