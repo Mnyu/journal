@@ -23,11 +23,20 @@ const EdgeTrend = ({ edges }: EdgeTrendProps) => {
     <Card className='w-full'>
       <CardHeader>
         <CardTitle>Edge Trend</CardTitle>
-        <CardDescription>Monthly system edge over the last six months.</CardDescription>
+        <CardDescription>Monthly system edge over the last 6 months.</CardDescription>
       </CardHeader>
       <CardContent className='pl-0'>
-        <ChartContainer config={chartConfig} className='w-full max-h-[250px]'>
-          <LineChart accessibilityLayer data={edges}>
+        <ChartContainer config={chartConfig} className='w-full h-[220px] sm:h-[240px] md:h-[260px]'>
+          <LineChart
+            accessibilityLayer
+            data={edges}
+            margin={{
+              top: 5,
+              right: 5,
+              left: 0,
+              bottom: 5,
+            }}
+          >
             <CartesianGrid vertical={true} />
             <XAxis
               type='category'

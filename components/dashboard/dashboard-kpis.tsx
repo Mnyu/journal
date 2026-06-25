@@ -9,7 +9,7 @@ const DashboardKPIs = ({ stat }: DashboardKPIsProps) => {
   const trend = stat.edge >= 2 ? 'Upward' : 'Downward';
   const edgeClass = stat.edge >= 2 ? 'text-[var(--green)]' : 'text-[var(--red)]';
   return (
-    <section className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-4 p-1'>
+    <section className='grid grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-4 p-1'>
       <Card className='w-full'>
         <CardHeader>
           <CardDescription>Trend</CardDescription>

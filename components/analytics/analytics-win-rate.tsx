@@ -23,11 +23,20 @@ const AnalyticsWinRate = ({ winRates }: AnalyticsWinRateProps) => {
     <Card className='w-full'>
       <CardHeader>
         <CardTitle>Win Rate</CardTitle>
-        <CardDescription>Monthly win rate over the last six months.</CardDescription>
+        <CardDescription>Monthly win rate over the last 6 months.</CardDescription>
       </CardHeader>
       <CardContent className='pl-0'>
-        <ChartContainer config={chartConfig} className='w-full max-h-[250px]'>
-          <BarChart accessibilityLayer data={winRates}>
+        <ChartContainer config={chartConfig} className='w-full h-[220px] sm:h-[240px] md:h-[260px]'>
+          <BarChart
+            accessibilityLayer
+            data={winRates}
+            margin={{
+              top: 5,
+              right: 5,
+              left: 0,
+              bottom: 5,
+            }}
+          >
             <CartesianGrid vertical={false} />
             {/* <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel hideIndicator />} /> */}
             <XAxis dataKey='month' />

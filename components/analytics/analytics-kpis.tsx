@@ -7,7 +7,7 @@ interface AnalyticsKPIsProps {
 
 const AnalyticsKPIs = ({ analytics }: AnalyticsKPIsProps) => {
   return (
-    <section className='grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4 p-1'>
+    <section className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 p-1'>
       <Card className='w-full'>
         <CardHeader>
           <CardDescription>Current Edge</CardDescription>

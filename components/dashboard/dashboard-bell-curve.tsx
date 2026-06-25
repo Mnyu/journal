@@ -25,14 +25,15 @@ const DashboardBellCurve = ({ distribution }: DashboardBellCurveProps) => {
           <CardDescription>Frequency distribution of completed trades by return percentage.</CardDescription>
         </CardHeader>
         <CardContent>
-          <ChartContainer config={chartConfig} className='w-full max-h-[250px]'>
+          <ChartContainer config={chartConfig} className='w-full h-[220px] sm:h-[240px] md:h-[260px]'>
             <AreaChart
               data={distribution}
               margin={{
+                top: 5,
+                right: 5,
                 left: 0,
-                right: 0,
+                bottom: 5,
               }}
-              className='size-fit'
             >
               <ReferenceLine x={0} label='x = 0' />
               <XAxis

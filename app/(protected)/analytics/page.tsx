@@ -12,10 +12,10 @@ const Analytics = async () => {
     <section className='h-full w-full flex flex-col gap-3 p-1 overflow-auto'>
       <AnalyticsHeader />
       <AnalyticsKPIs analytics={analytics} />
-      <section className='h-full grid grid-cols-1 xl:grid-cols-3 gap-4 p-1'>
+      <section className='grid grid-cols-1 lg:grid-cols-3 gap-4 p-1'>
+        <AnalyticsWinRate winRates={analytics.winRates} />
         <EdgeTrend edges={analytics.edges} />
         <BellCurveLast3Years last3YearsDistributions={analytics.last3YearsDistributions} />
-        <AnalyticsWinRate winRates={analytics.winRates} />
       </section>
       <section className='h-full'>
         <Trajectory />

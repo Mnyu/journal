@@ -10,7 +10,7 @@ export default async function ProtectedLayout({
 }>) {
   const session = await requireSession();
   return (
-    <SidebarProvider>
+    <SidebarProvider defaultOpen={false}>
       <AppSidebar user={session.user} />
       <main className='w-full h-full flex flex-col p-3'>
         <Header />

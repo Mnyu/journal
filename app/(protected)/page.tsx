@@ -26,7 +26,7 @@ const Dashboard = async ({ searchParams }: DashboardProps) => {
     <section className='w-full flex flex-col gap-4 p-1 overflow-auto focus-visible:outline-none'>
       <DashBoardHeader selectedMonth={month} />
       <DashboardKPIs stat={stat} />
-      <section className='h-full grid grid-cols-1 xl:grid-cols-2 gap-4 p-1'>
+      <section className='h-full grid grid-cols-1 lg:grid-cols-2 gap-4 p-1'>
         <OpenTrades data={openTradesData} />
         <Trajectory pagination={true} />
       </section>
