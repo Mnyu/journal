@@ -36,7 +36,6 @@ export type MonthlyStatDTO = {
 
 export type TradeDTO = {
   id: string;
-  userId: string;
   orderId: string;
   symbol: string;
   strategy: string;
@@ -50,8 +49,6 @@ export type TradeDTO = {
   returnPercent: number | null;
   rMultiple: number | null;
   reviews: TradeReviewsDTO | null;
-  createdAt: string;
-  updatedAt: string;
 };
 
 export type TradeReviewsDTO = {

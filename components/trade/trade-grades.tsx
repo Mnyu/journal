@@ -6,6 +6,8 @@ import TradeRating from './trade-rating';
 import { TradeReviewsDTO } from '@/types/dto';
 import { useState, useTransition } from 'react';
 import { saveReviews } from '@/actions/trade.actions';
+import { TradeReviews } from '@/schemas/trade-review.schema';
+import { toast } from 'sonner';
 
 interface TradeGradesProps {
   tradeId: string;
@@ -29,11 +31,19 @@ const TradeGrades = ({ tradeId, reviews }: TradeGradesProps) => {
 
   const save = () => {
     startTransition(async () => {
-      saveReviews({
-        tradeId: tradeId,
-        entry: entryReview,
-        exit: exitReview,
-      });
+      const payload: TradeReviews = { tradeId: tradeId };
+      if (entryReview) {
+        payload.entry = entryReview;
+      }
+      if (exitReview) {
+        payload.exit = exitReview;
+      }
+      const response = await saveReviews(payload);
+      if (response.success) {
+        toast.success('Grading successful');
+      } else {
+        toast.error(response.error.message);
+      }
     });
   };
 

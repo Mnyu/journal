@@ -4,23 +4,26 @@ import { and, eq } from 'drizzle-orm';
 import { monthlyDistributionForCurrentMonthSql, monthlyStatForCurrentMonthSql } from './native-queries';
 import { executeNativeSqlFirstResult } from './utils.repository';
 import { DistributionPoint } from '@/types/domain';
+import { requireSession } from '@/lib/auth-session';
 
-export const getMonthlyStat = async (userId: string, yearMonth: string): Promise<MonthlyStat | null> => {
+export const getMonthlyStat = async (yearMonth: string): Promise<MonthlyStat | null> => {
+  const { user } = await requireSession();
   const [monthStat] = await db
     .select()
     .from(monthlyStatsTable)
-    .where(and(eq(monthlyStatsTable.userId, userId), eq(monthlyStatsTable.yearMonth, yearMonth)));
+    .where(and(eq(monthlyStatsTable.userId, user.id), eq(monthlyStatsTable.yearMonth, yearMonth)));
   return monthStat ?? null;
 };
 
-export const getMonthlyStatForCurrentMonth = async (userId: string): Promise<MonthlyStat | null> => {
-  const dbStat = await executeNativeSqlFirstResult(monthlyStatForCurrentMonthSql, userId);
+export const getMonthlyStatForCurrentMonth = async (): Promise<MonthlyStat | null> => {
+  const { user } = await requireSession();
+  const dbStat = await executeNativeSqlFirstResult(monthlyStatForCurrentMonthSql, user.id);
   if (!dbStat) {
     return null;
   }
 
   let distribution: DistributionPoint[] = [];
-  const dbDistribution = await executeNativeSqlFirstResult(monthlyDistributionForCurrentMonthSql, userId);
+  const dbDistribution = await executeNativeSqlFirstResult(monthlyDistributionForCurrentMonthSql, user.id);
   if (dbDistribution) {
     distribution = dbDistribution.distribution as DistributionPoint[];
   }

@@ -1,7 +1,7 @@
-import { getTrades } from '@/actions/trade.actions';
 import TradesHeader from '@/components/trades/trades-header';
 import TradesTable from '@/components/trades/trades-table';
 import { TradeListFilters } from '@/schemas/trade.schema';
+import { getTrades } from '@/services/trade.service';
 
 interface TradesProps {
   searchParams: Promise<TradeListFilters>;

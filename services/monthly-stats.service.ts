@@ -1,10 +1,11 @@
 import { MonthlyStat } from '@/db/schema';
+import { InternalError } from '@/lib/errors';
 import * as statsRepo from '@/repositories/monthly-stats.repository';
 import { DistributionPoint } from '@/types/domain';
 import { DistributionPointDTO, MonthlyStatDTO } from '@/types/dto';
 
-export const getMonthlyStatForCurrentMonth = async (userId: string) => {
-  const monthlyStat = await statsRepo.getMonthlyStatForCurrentMonth(userId);
+export const getMonthlyStatForCurrentMonth = async () => {
+  const monthlyStat = await statsRepo.getMonthlyStatForCurrentMonth();
   if (!monthlyStat) {
     //TODO : Fix this
     return buildEmptyMonthlyStatDTO();
@@ -12,8 +13,8 @@ export const getMonthlyStatForCurrentMonth = async (userId: string) => {
   return buildDTOFromMonthlyStat(monthlyStat);
 };
 
-export const getMonthlyStat = async (userId: string, yearMonth: string) => {
-  const monthlyStat = await statsRepo.getMonthlyStat(userId, yearMonth);
+export const getMonthlyStat = async (yearMonth: string) => {
+  const monthlyStat = await statsRepo.getMonthlyStat(yearMonth);
   if (!monthlyStat) {
     //TODO : Fix this
     return buildEmptyMonthlyStatDTO();

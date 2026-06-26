@@ -1,7 +1,7 @@
-import { getTrajectory } from '@/actions/trade.actions';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
+import { getTrajectory } from '@/services/trade.service';
 import { DataTable } from './table/data-table';
 import { trajectoryColumns } from './trajectory-columns';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 
 interface TrajectoryProps {
   pagination?: boolean;

@@ -1,11 +1,12 @@
-import { getMonthlyStat, getMonthlyStatForCurrentMonth } from '@/actions/monthly-stats.actions';
-import { getOpenTrades } from '@/actions/trade.actions';
 import DashboardBellCurve from '@/components/dashboard/dashboard-bell-curve';
 import DashBoardHeader from '@/components/dashboard/dashboard-header';
 import DashboardKPIs from '@/components/dashboard/dashboard-kpis';
 import OpenTrades from '@/components/dashboard/dashboard-open-trades';
 import Trajectory from '@/components/trajectory-table';
 import { getCurrentMonth } from '@/lib/months';
+import { TradeListFilters } from '@/schemas/trade.schema';
+import { getMonthlyStat, getMonthlyStatForCurrentMonth } from '@/services/monthly-stats.service';
+import { getOpenTrades } from '@/services/trade.service';
 
 interface DashboardProps {
   searchParams: Promise<{
@@ -18,9 +19,8 @@ const Dashboard = async ({ searchParams }: DashboardProps) => {
   const currentMonth = getCurrentMonth();
   const stat = month && month !== currentMonth ? await getMonthlyStat(month) : await getMonthlyStatForCurrentMonth();
 
-  const openTradesData = await getOpenTrades({
-    pageSize: 4,
-  });
+  const payload: TradeListFilters = { page: 1, pageSize: 4, sort: 'createdAt', direction: 'desc' };
+  const openTradesData = await getOpenTrades(payload);
 
   return (
     <section className='w-full flex flex-col gap-4 p-1 overflow-auto focus-visible:outline-none'>

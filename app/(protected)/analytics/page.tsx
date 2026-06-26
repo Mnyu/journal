@@ -3,8 +3,8 @@ import AnalyticsKPIs from '@/components/analytics/analytics-kpis';
 import BellCurveLast3Years from '@/components/analytics/analytics-bell-last-3-years';
 import EdgeTrend from '@/components/analytics/analytics-edge-trend';
 import AnalyticsWinRate from '@/components/analytics/analytics-win-rate';
-import { getCurrentAnalytics } from '@/actions/yearly-stats.actions';
 import Trajectory from '@/components/trajectory-table';
+import { getCurrentAnalytics } from '@/services/yearly-stats.service';
 
 const Analytics = async () => {
   const analytics = await getCurrentAnalytics();

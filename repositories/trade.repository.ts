@@ -5,9 +5,11 @@ import { Trajectory } from '@/types/domain';
 import { and, asc, desc, eq, isNull, sql } from 'drizzle-orm';
 import { trajectorySql } from './native-queries';
 import { executeNativeSql } from './utils.repository';
+import { requireSession } from '@/lib/auth-session';
 
-export const findTrades = async (userId: string, filters: TradeListFilters) => {
-  const conditions = [eq(trades.userId, userId)];
+export const findTrades = async (filters: TradeListFilters) => {
+  const { user } = await requireSession();
+  const conditions = [eq(trades.userId, user.id)];
   if (filters.symbol) {
     conditions.push(eq(trades.symbol, filters.symbol));
   }
@@ -37,8 +39,9 @@ export const findTrades = async (userId: string, filters: TradeListFilters) => {
   };
 };
 
-export const findOpenTrades = async (userId: string, filters: TradeListFilters) => {
-  const conditions = [eq(trades.userId, userId), isNull(trades.exitDate)];
+export const findOpenTrades = async (filters: TradeListFilters) => {
+  const { user } = await requireSession();
+  const conditions = [eq(trades.userId, user.id), isNull(trades.exitDate)];
   const whereClause = and(...conditions);
   const offset = (filters.page - 1) * filters.pageSize;
   const [rows, countResult] = await Promise.all([
@@ -64,8 +67,9 @@ export const findOpenTrades = async (userId: string, filters: TradeListFilters) 
   };
 };
 
-export const findTrade = async (userId: string, id: string) => {
-  const conditions = [eq(trades.userId, userId), eq(trades.id, id)];
+export const findTrade = async (id: string) => {
+  const { user } = await requireSession();
+  const conditions = [eq(trades.userId, user.id), eq(trades.id, id)];
   const whereClause = and(...conditions);
   const trade = await db.query.trades.findFirst({
     where: whereClause,
@@ -78,8 +82,9 @@ export const findTrade = async (userId: string, id: string) => {
   return trade ?? null;
 };
 
-export const findTrajectory = async (userId: string): Promise<Trajectory[]> => {
-  const dbRows = await executeNativeSql(trajectorySql, userId);
+export const findTrajectory = async (): Promise<Trajectory[]> => {
+  const { user } = await requireSession();
+  const dbRows = await executeNativeSql(trajectorySql, user.id);
   return dbRows.map((dbRow) => ({
     period: dbRow.period as string,
     noOfTrades: Number(dbRow.trades),

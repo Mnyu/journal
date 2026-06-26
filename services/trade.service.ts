@@ -1,14 +1,21 @@
 import { Trade, TradeReview } from '@/db/schema';
+import { NotFoundError, ValidationError } from '@/lib/errors';
 import { buildPagination } from '@/lib/pagination';
 import * as reviewRepo from '@/repositories/trade-review.repository';
 import * as repo from '@/repositories/trade.repository';
 import { TradeReviews } from '@/schemas/trade-review.schema';
-import { TradeListFilters } from '@/schemas/trade.schema';
+import { TradeListFilters, tradeListFiltersSchema } from '@/schemas/trade.schema';
 import { Trajectory } from '@/types/domain';
 import { PageResponse, TradeDTO, TradeReviewDTO, TradeReviewsDTO, TrajectoryDTO } from '@/types/dto';
+import { flattenError } from 'zod';
 
-export const getTrades = async (userId: string, filters: TradeListFilters): Promise<PageResponse<TradeDTO>> => {
-  const queryResult = await repo.findTrades(userId, filters);
+export const getTrades = async (filters: TradeListFilters): Promise<PageResponse<TradeDTO>> => {
+  const parsed = tradeListFiltersSchema.safeParse(filters);
+  if (!parsed.success) {
+    throw new ValidationError('Input validation failed', flattenError(parsed.error).fieldErrors);
+  }
+  filters = parsed.data;
+  const queryResult = await repo.findTrades(filters);
   const pagination = buildPagination(filters.page, filters.pageSize, queryResult.total);
   return {
     data: buildDTOsFromTrades(queryResult.rows),
@@ -16,8 +23,13 @@ export const getTrades = async (userId: string, filters: TradeListFilters): Prom
   };
 };
 
-export const getOpenTrades = async (userId: string, filters: TradeListFilters): Promise<PageResponse<TradeDTO>> => {
-  const queryResult = await repo.findOpenTrades(userId, filters);
+export const getOpenTrades = async (filters: TradeListFilters): Promise<PageResponse<TradeDTO>> => {
+  const parsed = tradeListFiltersSchema.safeParse(filters);
+  if (!parsed.success) {
+    throw new ValidationError('Input validation failed', flattenError(parsed.error).fieldErrors);
+  }
+  filters = parsed.data;
+  const queryResult = await repo.findOpenTrades(filters);
   const pagination = buildPagination(filters.page, filters.pageSize, queryResult.total);
   return {
     data: buildDTOsFromTrades(queryResult.rows),
@@ -25,22 +37,22 @@ export const getOpenTrades = async (userId: string, filters: TradeListFilters): 
   };
 };
 
-export const getTradeById = async (userId: string, id: string): Promise<TradeDTO> => {
-  const trade = await repo.findTrade(userId, id);
+export const getTradeById = async (id: string): Promise<TradeDTO> => {
+  const trade = await repo.findTrade(id);
   if (!trade) {
-    throw new Error('trade not found');
+    throw new NotFoundError('Trade not found');
   }
   return buildDTOFromTradeWithReviews(trade);
 };
 
-export const getTrajectory = async (userId: string): Promise<TrajectoryDTO[]> => {
-  const trajectories = await repo.findTrajectory(userId);
+export const getTrajectory = async (): Promise<TrajectoryDTO[]> => {
+  const trajectories = await repo.findTrajectory();
   return trajectories.map((t) => buildDTOFromTrajectory(t));
 };
 
-export const saveReviews = async (userId: string, reviews: TradeReviews): Promise<TradeReviewsDTO> => {
+export const saveReviews = async (reviews: TradeReviews): Promise<TradeReviewsDTO> => {
   const tradeId = reviews.tradeId;
-  getTradeById(userId, tradeId);
+  getTradeById(tradeId);
 
   let entryReviewDTO = null;
   let exitReviewDTO = null;
@@ -76,7 +88,6 @@ const buildDTOsFromTrades = (trades: Trade[]): TradeDTO[] => {
 const buildDTOFromTrade = (trade: Trade): TradeDTO => {
   return {
     id: trade.id,
-    userId: trade.userId,
     orderId: trade.orderId,
     symbol: trade.symbol,
     strategy: trade.strategy ?? '',
@@ -90,8 +101,6 @@ const buildDTOFromTrade = (trade: Trade): TradeDTO => {
     returnPercent: trade.returnPercent ?? null,
     rMultiple: trade.rMultiple ?? null,
     reviews: null,
-    createdAt: trade.createdAt ? trade.createdAt.toISOString() : '',
-    updatedAt: trade.updatedAt ? trade.updatedAt.toISOString() : '',
   };
 };
 

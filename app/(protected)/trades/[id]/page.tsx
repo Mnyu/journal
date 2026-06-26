@@ -1,7 +1,8 @@
-import { getTradeById, saveReviews } from '@/actions/trade.actions';
+import { saveReviews } from '@/actions/trade.actions';
 import TradeDetails from '@/components/trade/trade-details';
 import TradeGrades from '@/components/trade/trade-grades';
 import TradeHeader from '@/components/trade/trade-header';
+import { getTradeById } from '@/services/trade.service';
 
 type TradeProps = {
   params: Promise<{
