@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { authClient } from '@/lib/auth-client';
 import { redirect } from 'next/navigation';
+import { toast } from 'sonner';
 
 const SignIn = () => {
   const form = useForm<SignInInput>({
@@ -40,8 +41,7 @@ const SignIn = () => {
         },
         onError: (ctx) => {
           // display the error message
-          alert(ctx.error.message);
-          console.error('err', ctx);
+          toast.error(ctx.error.message);
         },
       },
     );

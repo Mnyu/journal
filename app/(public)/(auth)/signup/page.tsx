@@ -11,6 +11,7 @@ import Link from 'next/link';
 import { SignUpInput, signUpSchema } from '@/schemas/signup.schema';
 import { authClient } from '@/lib/auth-client';
 import { redirect } from 'next/navigation';
+import { toast } from 'sonner';
 
 const SignUp = () => {
   const form = useForm<SignUpInput>({
@@ -42,8 +43,7 @@ const SignUp = () => {
         },
         onError: (ctx) => {
           // display the error message
-          alert(ctx.error.message);
-          console.error('err', ctx);
+          toast.error(ctx.error.message);
         },
       },
     );
