@@ -1,0 +1,23 @@
+services:
+  app:
+    image: ghcr.io/mnyu/app:1.0.0
+    expose:
+      - '3000'
+    env_file:
+      - .env
+  migrate:
+    image: ghcr.io/mnyu/app-migrate:1.0.0
+    env_file:
+      - .env
+  db:
+    ports:
+      - '127.0.0.1:5432:5432'
+    volumes:
+      - /data/postgres:/var/lib/postgresql
+  caddy:
+    volumes:
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - /data/caddy/data:/data
+      - /data/caddy/config:/config
+    depends_on:
+      - app

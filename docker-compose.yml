@@ -1,27 +1,15 @@
 services:
   app:
-    build:
-      context: .
-    image: app:1.0.0
     hostname: app
     container_name: app
-    ports:
-      - '3000:3000'
+    restart: unless-stopped
     depends_on:
       migrate:
         condition: service_completed_successfully
-    env_file:
-      - .env
   migrate:
-    build:
-      context: .
-      target: migrate
-    image: app-migrate:1.0.0
     command: bun run db:migrate
     hostname: app-migrate
     container_name: app-migrate
-    env_file:
-      - .env
     restart: 'no'
     depends_on:
       db:
@@ -32,18 +20,22 @@ services:
     hostname: db
     container_name: db
     restart: unless-stopped
-    ports:
-      - '5432:5432'
     environment:
       - POSTGRES_DB=${DB_NAME}
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
-    volumes:
-      - postgres_data:/var/lib/postgresql
     healthcheck:
       test: ['CMD-SHELL', 'pg_isready -h localhost -U ${DB_USER} -d ${DB_NAME}']
       interval: 5s
       timeout: 5s
       retries: 10
-volumes:
-  postgres_data:
+  caddy:
+    image: caddy:latest
+    hostname: caddy
+    container_name: caddy
+    restart: unless-stopped
+    ports:
+      - '80:80'
+      - '443:443'
+    depends_on:
+      - app
