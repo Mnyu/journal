@@ -6,6 +6,7 @@ import { redirect } from 'next/navigation';
 import { cache } from 'react';
 import { UnauthorizedError } from './errors';
 import { getDateString } from './utils';
+import { AuthenticatedAPIUser } from '@/types/domain';
 
 const getSession = async () => {
   return auth.api.getSession({
@@ -42,6 +43,26 @@ export const getKeys = async () => {
     headers: await headers(),
   });
   return { keys: buildKeysDTOFromKeys(apiKeys), total, limit, offset };
+};
+
+export const requireAPIKey = async (request: Request): Promise<AuthenticatedAPIUser> => {
+  const apiKey = request.headers.get('x-api-key');
+  if (!apiKey) {
+    throw new UnauthorizedError('no api key provided');
+  }
+  const result = await auth.api.verifyApiKey({
+    body: {
+      key: apiKey,
+    },
+  });
+  if (!result.valid || !result.key) {
+    throw new UnauthorizedError('invalid API key');
+  }
+  return {
+    userId: result.key.referenceId,
+    apiKeyId: result.key.id,
+    permissions: result.key.permissions,
+  };
 };
 
 const buildKeysDTOFromKeys = (keys: APIKey[]) => {

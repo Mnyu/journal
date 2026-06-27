@@ -1,4 +1,4 @@
-import { Trade, TradeReview } from '@/db/schema';
+import { NewTrade, Trade, TradeReview } from '@/db/schema';
 import { NotFoundError, ValidationError } from '@/lib/errors';
 import { buildPagination } from '@/lib/pagination';
 import * as reviewRepo from '@/repositories/trade-review.repository';
@@ -6,8 +6,8 @@ import * as repo from '@/repositories/trade.repository';
 import { TradeReviews } from '@/schemas/trade-review.schema';
 import { TradeListFilters, tradeListFiltersSchema } from '@/schemas/trade.schema';
 import { Trajectory } from '@/types/domain';
-import { PageResponse, TradeDTO, TradeReviewDTO, TradeReviewsDTO, TrajectoryDTO } from '@/types/dto';
-import { flattenError } from 'zod';
+import { CreateTradeDTO, PageResponse, TradeDTO, TradeReviewDTO, TradeReviewsDTO, TrajectoryDTO } from '@/types/dto';
+import { flattenError, symbol } from 'zod';
 
 export const getTrades = async (filters: TradeListFilters): Promise<PageResponse<TradeDTO>> => {
   const parsed = tradeListFiltersSchema.safeParse(filters);
@@ -81,6 +81,12 @@ export const saveReviews = async (reviews: TradeReviews): Promise<TradeReviewsDT
   };
 };
 
+export const saveTrades = async (userId: string, newTradeDTOs: CreateTradeDTO[]) => {
+  const newTrades = buildTradesFromCreateTradeDTOs(userId, newTradeDTOs);
+  const createdTrades = await repo.createTrades(newTrades);
+  return buildDTOsFromTrades(createdTrades);
+};
+
 const buildDTOsFromTrades = (trades: Trade[]): TradeDTO[] => {
   return trades.map((t) => buildDTOFromTrade(t));
 };
@@ -150,4 +156,25 @@ const buildDTOFromReview = (review: TradeReview): TradeReviewDTO => {
     createdAt: review.createdAt ? review.createdAt.toISOString() : '',
     updatedAt: review.updatedAt ? review.updatedAt.toISOString() : '',
   };
+};
+
+const buildTradesFromCreateTradeDTOs = (userId: string, newTrades: CreateTradeDTO[]): NewTrade[] => {
+  return newTrades.map((t) => {
+    const trade: NewTrade = {
+      userId: userId,
+      orderId: t.orderId,
+      symbol: t.symbol,
+      entry: t.entry,
+      quantity: t.quantity,
+      risk: t.risk,
+      entryDate: t.entryDate,
+    };
+    if (t.exit) {
+      trade.exit = t.exit;
+    }
+    if (t.exitDate) {
+      trade.exitDate = t.exitDate;
+    }
+    return trade;
+  });
 };

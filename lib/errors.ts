@@ -20,6 +20,12 @@ export class AppError extends Error {
   }
 }
 
+export class BadRequestError extends AppError {
+  constructor(message = 'Bad request.') {
+    super(message, 'BAD_REQUEST', 400);
+  }
+}
+
 export class ValidationError extends AppError {
   constructor(message: string, details?: unknown) {
     super(message, 'VALIDATION', 400, details);

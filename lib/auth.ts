@@ -10,6 +10,9 @@ export const auth = betterAuth({
   plugins: [
     apiKey({
       requireName: true,
+      rateLimit: {
+        enabled: false, // TODO : fix this
+      },
     }),
   ],
 });

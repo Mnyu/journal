@@ -1,5 +1,5 @@
 import { db } from '@/db/client';
-import { tradeReviews, trades } from '@/db/schema';
+import { NewTrade, Trade, tradeReviews, trades } from '@/db/schema';
 import { TradeListFilters } from '@/schemas/trade.schema';
 import { Trajectory } from '@/types/domain';
 import { and, asc, desc, eq, isNull, sql } from 'drizzle-orm';
@@ -96,6 +96,16 @@ export const findTrajectory = async (): Promise<Trajectory[]> => {
     riskReward: Number(dbRow.risk_reward),
     edge: Number(dbRow.edge),
   }));
+};
+
+export const createTrades = async (newTrades: NewTrade[]): Promise<Trade[]> => {
+  if (newTrades.length === 0) {
+    return [];
+  }
+  return db.transaction(async (tx) => {
+    const createdTrades = await tx.insert(trades).values(newTrades).onConflictDoNothing().returning();
+    return createdTrades;
+  });
 };
 
 export type TradeWithReviews = NonNullable<Awaited<ReturnType<typeof findTrade>>>;

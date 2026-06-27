@@ -26,3 +26,9 @@ export type Trajectory = {
   riskReward: number;
   edge: number;
 };
+
+export interface AuthenticatedAPIUser {
+  userId: string;
+  apiKeyId: string;
+  permissions?: { [key: string]: string[] } | null | undefined;
+}

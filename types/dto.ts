@@ -51,6 +51,18 @@ export type TradeDTO = {
   reviews: TradeReviewsDTO | null;
 };
 
+export type CreateTradeDTO = {
+  orderId: string;
+  symbol: string;
+  strategy: string;
+  entry: number;
+  quantity: number;
+  risk: number;
+  entryDate: string;
+  exit?: number;
+  exitDate?: string;
+};
+
 export type TradeReviewsDTO = {
   tradeId: string;
   entry: TradeReviewDTO | null;
