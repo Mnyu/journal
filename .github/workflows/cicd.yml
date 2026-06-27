@@ -102,20 +102,16 @@ jobs:
           ls -la
           find . -maxdepth 3 -type f
       - name: Copy deployment files
-        uses: appleboy/scp-action@v0.1.7
+        uses: appleboy/scp-action@v1
         with:
+          debug: true
           host: ${{ secrets.OCI_HOST }}
           username: ${{ secrets.OCI_USER }}
           key: ${{ secrets.OCI_SSH_KEY }}
           port: ${{ secrets.OCI_PORT }}
           overwrite: true
           strip_components: 0
-          source: |
-            docker-compose.yml
-            docker-compose.prod.yml
-            ./caddy/Caddyfile
-            ./bin/deploy.sh
-            ./bin/rollback.sh
+          source: "docker-compose.yml,docker-compose.prod.yml,caddy/Caddyfile,bin/deploy.sh,bin/rollback.sh"
           target: /data/apps/journal
   deploy:
     needs: upload-deployment-files
