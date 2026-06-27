@@ -17,10 +17,12 @@ interface DashboardProps {
 const Dashboard = async ({ searchParams }: DashboardProps) => {
   const { month } = await searchParams;
   const currentMonth = getCurrentMonth();
-  const stat = month && month !== currentMonth ? await getMonthlyStat(month) : await getMonthlyStatForCurrentMonth();
-
   const payload: TradeListFilters = { page: 1, pageSize: 4, sort: 'createdAt', direction: 'desc' };
-  const openTradesData = await getOpenTrades(payload);
+
+  const statPromise = month && month !== currentMonth ? getMonthlyStat(month) : getMonthlyStatForCurrentMonth();
+  const openTradesPromise = await getOpenTrades(payload);
+
+  const [stat, openTradesData] = await Promise.all([statPromise, openTradesPromise]);
 
   return (
     <section className='w-full flex flex-col gap-4 p-1 overflow-auto focus-visible:outline-none'>
