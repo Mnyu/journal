@@ -1,28 +1,19 @@
-import { Rating, RatingButton } from '../ui/rating';
+import { TradeReviewsDTO } from '@/types/dto';
+import { Controller, useFormContext } from 'react-hook-form';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Field, FieldLabel } from '../ui/field';
+import { Rating, RatingButton } from '../ui/rating';
 import { Textarea } from '../ui/textarea';
-import { TradeReviewDTO, TradeReviewsDTO } from '@/types/dto';
 import TradeInsights from './trade-insights';
 
 interface TradeRatingProps {
   type: keyof TradeReviewsDTO;
   title: string;
-  review: TradeReviewDTO | null;
-  updateReview: (type: keyof TradeReviewsDTO, score: number, comments: string) => void;
 }
 
-const TradeRating = ({ type, title, review, updateReview }: TradeRatingProps) => {
-  const rating = review && review.score ? review.score : 0;
-  const comments = review && review.comments ? review.comments : '';
-
-  const onRatingChange = (value: number) => {
-    updateReview(type, value, comments);
-  };
-
-  const onCommentsChange = (value: string) => {
-    updateReview(type, rating, value);
-  };
+const TradeRating = ({ type, title }: TradeRatingProps) => {
+  const { control } = useFormContext<TradeReviewsDTO>();
+  const controlName = type === 'entry' ? 'entry' : 'exit';
 
   return (
     <Card className='ring-0 pt-0'>
@@ -30,29 +21,41 @@ const TradeRating = ({ type, title, review, updateReview }: TradeRatingProps) =>
         <CardTitle className='font-semibold'>{title}</CardTitle>
       </CardHeader>
       <CardContent className='grid gap-4'>
-        <Field className='grid grid-cols-[1fr_1fr_1fr]'>
-          <FieldLabel className='text-muted-foreground'>Rating</FieldLabel>
-          <Rating value={rating} onValueChange={onRatingChange}>
-            <RatingButton />
-            <RatingButton />
-            <RatingButton />
-            <RatingButton />
-            <RatingButton />
-          </Rating>
-          {rating && <span className=''>{rating} / 5</span>}
-        </Field>
-        <Field>
-          <FieldLabel htmlFor={`comments-${title.toLowerCase()}`} className='text-muted-foreground'>
-            Comments
-          </FieldLabel>
-          <Textarea
-            id={`comments-${title.toLowerCase()}`}
-            placeholder={`How well did you execute the ${title.toLowerCase()}?`}
-            className='h-[120px]'
-            defaultValue={comments}
-            onChange={(e) => onCommentsChange(e.target.value)}
-          />
-        </Field>
+        <Controller
+          name={`${controlName}.score`}
+          control={control}
+          render={({ field, fieldState }) => (
+            <Field className='grid grid-cols-[1fr_1fr_1fr]'>
+              <FieldLabel className='text-muted-foreground'>Rating</FieldLabel>
+              <Rating value={field.value} onValueChange={field.onChange}>
+                <RatingButton />
+                <RatingButton />
+                <RatingButton />
+                <RatingButton />
+                <RatingButton />
+              </Rating>
+              {field.value && <span className=''>{field.value} / 5</span>}
+            </Field>
+          )}
+        />
+        <Controller
+          name={`${controlName}.comments`}
+          control={control}
+          render={({ field, fieldState }) => (
+            <Field>
+              <FieldLabel htmlFor={`comments-${title.toLowerCase()}`} className='text-muted-foreground'>
+                Comments
+              </FieldLabel>
+              <Textarea
+                id={`comments-${title.toLowerCase()}`}
+                placeholder={`How well did you execute the ${title.toLowerCase()}?`}
+                className='h-[120px]'
+                value={field.value}
+                onChange={field.onChange}
+              />
+            </Field>
+          )}
+        />
         <TradeInsights type={type} />
       </CardContent>
     </Card>
