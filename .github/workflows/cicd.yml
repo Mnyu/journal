@@ -113,8 +113,9 @@ jobs:
           source: |
             docker-compose.yml
             docker-compose.prod.yml
-            caddy/Caddyfile
-            bin/**
+            ./caddy/Caddyfile
+            ./bin/deploy.sh
+            ./bin/rollback.sh
           target: /data/apps/journal
   deploy:
     needs: upload-deployment-files
