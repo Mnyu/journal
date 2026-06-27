@@ -1,12 +1,12 @@
 services:
   app:
-    image: ghcr.io/mnyu/app:1.0.0
+    image: ${APP_IMAGE}
     expose:
       - '3000'
     env_file:
       - .env
   migrate:
-    image: ghcr.io/mnyu/app-migrate:1.0.0
+    image: ${MIGRATE_IMAGE}
     env_file:
       - .env
   db:
