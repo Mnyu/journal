@@ -75,7 +75,8 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
-          platforms: linux/amd64,linux/arm64
+          # platforms: linux/amd64,linux/arm64
+          platforms: linux/arm64
           push: true
           tags: |
             ${{ env.IMAGE_NAME }}:app
@@ -86,7 +87,8 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
-          platforms: linux/amd64,linux/arm64
+          # platforms: linux/amd64,linux/arm64
+          platforms: linux/arm64
           target: migrate
           push: true
           tags: |

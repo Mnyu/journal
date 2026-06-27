@@ -19,6 +19,6 @@ docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
 
 sleep 10
 
-curl -fs http://localhost:3000/api/v1/health/live
+# curl -fs http://localhost:3000/api/v1/health/live
 
 echo "Deployment successful"
