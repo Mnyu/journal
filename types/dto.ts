@@ -108,4 +108,13 @@ export type TrajectoryDTO = {
   edge: number;
 };
 
+export type APIKeyDTO = {
+  id: string;
+  name: string | null;
+  status: string;
+  created: string;
+  expires: string;
+  lastUsed: string;
+};
+
 // ***************** SPECIFIC - END ************************

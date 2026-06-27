@@ -8,6 +8,13 @@
       "when": 1782394006903,
       "tag": "0000_naive_sauron",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1782543632828,
+      "tag": "0001_loud_magneto",
+      "breakpoints": true
     }
   ]
 }

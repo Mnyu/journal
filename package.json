@@ -13,6 +13,7 @@
     "db:seed": "bun db/seed.ts"
   },
   "dependencies": {
+    "@better-auth/api-key": "^1.6.22",
     "@hookform/resolvers": "^5.4.0",
     "@tanstack/react-table": "^8.21.3",
     "better-auth": "^1.6.20",

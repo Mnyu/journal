@@ -58,7 +58,7 @@ export const findOpenTrades = async (filters: TradeListFilters) => {
         total: sql<number>`count(*)`,
       })
       .from(trades)
-      .where(isNull(trades.exitDate)),
+      .where(whereClause),
   ]);
 
   return {

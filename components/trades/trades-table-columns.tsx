@@ -1,5 +1,3 @@
-// 'use client';
-
 import { formatAmountInInr } from '@/lib/amounts';
 import { TradeDTO } from '@/types/dto';
 import { ColumnDef } from '@tanstack/react-table';

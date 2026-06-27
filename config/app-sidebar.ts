@@ -31,7 +31,7 @@ export const appSidebar = {
   secondaryMenuItems: [
     {
       title: 'Settings',
-      url: '#',
+      url: '/settings',
       icon: SettingsIcon,
     },
     // {

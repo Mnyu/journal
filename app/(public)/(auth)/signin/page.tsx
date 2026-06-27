@@ -16,7 +16,7 @@ import { toast } from 'sonner';
 const SignIn = () => {
   const form = useForm<SignInInput>({
     resolver: zodResolver(signInSchema),
-    mode: 'onChange',
+    mode: 'onBlur',
     defaultValues: {
       email: '',
       password: '',

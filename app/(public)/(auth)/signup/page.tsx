@@ -1,22 +1,22 @@
 'use client';
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Controller, useForm } from 'react-hook-form';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import Image from 'next/image';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Field, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
-import { SignUpInput, signUpSchema } from '@/schemas/signup.schema';
 import { authClient } from '@/lib/auth-client';
+import { SignUpInput, signUpSchema } from '@/schemas/signup.schema';
+import { zodResolver } from '@hookform/resolvers/zod';
+import Image from 'next/image';
+import Link from 'next/link';
 import { redirect } from 'next/navigation';
+import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
 const SignUp = () => {
   const form = useForm<SignUpInput>({
     resolver: zodResolver(signUpSchema),
-    mode: 'onChange',
+    mode: 'onBlur',
     defaultValues: {
       name: '',
       email: '',

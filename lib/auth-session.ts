@@ -2,9 +2,10 @@ import 'server-only';
 
 import { auth } from '@/lib/auth';
 import { headers } from 'next/headers';
+import { redirect } from 'next/navigation';
 import { cache } from 'react';
 import { UnauthorizedError } from './errors';
-import { redirect } from 'next/navigation';
+import { getDateString } from './utils';
 
 const getSession = async () => {
   return auth.api.getSession({
@@ -34,4 +35,48 @@ export const redirectIfSessionPresent = async () => {
     redirect('/');
   }
   return null;
+};
+
+export const getKeys = async () => {
+  const { apiKeys, total, limit, offset } = await auth.api.listApiKeys({
+    headers: await headers(),
+  });
+  return { keys: buildKeysDTOFromKeys(apiKeys), total, limit, offset };
+};
+
+const buildKeysDTOFromKeys = (keys: APIKey[]) => {
+  return keys.map((k) => ({
+    id: k.id,
+    name: k.name,
+    status: k.enabled ? 'active' : 'inactive',
+    created: getDateString(k.createdAt),
+    expires: k.expiresAt ? getDateString(k.expiresAt) : 'never',
+    lastUsed: k.lastRequest ? getDateString(k.lastRequest) : 'never',
+  }));
+};
+
+type APIKey = {
+  metadata: Record<string, any> | null;
+  permissions: {
+    [key: string]: string[];
+  } | null;
+  id: string;
+  configId: string;
+  name: string | null;
+  start: string | null;
+  prefix: string | null;
+  referenceId: string;
+  refillInterval: number | null;
+  refillAmount: number | null;
+  lastRefillAt: Date | null;
+  enabled: boolean;
+  rateLimitEnabled: boolean;
+  rateLimitTimeWindow: number | null;
+  rateLimitMax: number | null;
+  requestCount: number;
+  remaining: number | null;
+  lastRequest: Date | null;
+  expiresAt: Date | null;
+  createdAt: Date;
+  updatedAt: Date;
 };
